@@ -10,9 +10,33 @@
 		407043082FE498BC00AE0649 /* PetPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		407043222FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "PetPulse" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				.gitkeep,
+			);
+			target = 407043072FE498BC00AE0649 /* PetPulse */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		407043232FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "Compile Sources" phase from "PetPulse" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 407043042FE498BC00AE0649 /* Sources */;
+			membershipExceptions = (
+				.gitkeep,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4070430A2FE498BC00AE0649 /* PetPulse */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				407043222FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "PetPulse" target */,
+				407043232FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "Compile Sources" phase from "PetPulse" target */,
+			);
 			path = PetPulse;
 			sourceTree = "<group>";
 		};
