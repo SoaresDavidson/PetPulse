@@ -10,5 +10,11 @@ import Foundation
 // MARK: - Species
 struct Species: Identifiable, Codable {
     let id: Int
+    let rev: String
     var nomeEspecie: String
+    enum CodingKeys: String, CodingKey {
+            case id = "_id"
+            case rev = "_rev"
+            case nomeEspecie = "nome_especie"
+        }
 }

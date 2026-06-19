@@ -10,9 +10,19 @@ import Foundation
 // MARK: - Scheduling (Agendamentos)
 struct Scheduling: Identifiable, Codable {
     let id: Int
+    let rev: String
     var petId: Int
     var petshopId: Int
     var serviceId: Int
     var dataHoraAgendamento: Date
     var statusServico: String
+    enum CodingKeys: String, CodingKey {
+            case id = "_id"
+            case rev = "_rev"
+            case petId = "pet_id"
+            case petshopId = "petshop_id"
+            case serviceId = "service_id"
+            case dataHoraAgendamento = "data_hora_agendamento"
+            case statusServico = "status_servico"
+        }
 }
