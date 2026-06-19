@@ -11,5 +11,11 @@ import Foundation
 // MARK: - Petshop
 struct Petshop: Identifiable, Codable {
     let id: Int
+    let rev: String
     var nome: String
+    enum CodingKeys: String, CodingKey {
+            case id = "_id"
+            case rev = "_rev"
+            case nome
+        }
 }
