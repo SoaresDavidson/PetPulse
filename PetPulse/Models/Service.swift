@@ -10,16 +10,14 @@ import Foundation
 
 // MARK: - Services
 struct Service: Identifiable, Codable {
-    let id: Int
-    let rev: String
-    var petshopId: Int
+    let id: Int?
+    let rev: String?
     var nomeServico: String
     var preco: Double
     var duracaoEstimada: Int
     enum CodingKeys: String, CodingKey {
             case id = "_id"
             case rev = "_rev"
-            case petshopId = "petshop_id"
             case nomeServico = "nome_servico"
             case preco
             case duracaoEstimada = "duracao_estimada"

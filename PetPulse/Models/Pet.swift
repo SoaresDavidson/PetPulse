@@ -9,25 +9,28 @@ import Foundation
 
 // MARK: - Pet
 struct Pet: Identifiable, Codable {
-    let id: String
-    let rev: String
-    var tutorId: Int
-    var petshopId: Int? // Opcional, dependendo da regra de negócio (se um pet só existe atrelado a um petshop)
-    var speciesId: Int
+    let id: String?
+    let rev: String?
     var nome: String
+    var species: Species
     var raca: String
     var dataNascimento: Date
-    var informacoesMedicas: String
+    var vacinas: [VacinaPet]
+    let informacoes_medicas: String
+    let sexo: String
+    let imagem: String
+    
     
     enum CodingKeys: String, CodingKey {
             case id = "_id"
             case rev = "_rev"
-            case tutorId = "tutor_id"
-            case petshopId = "petshop_id"
-            case speciesId = "species_id"
             case nome
             case raca
-            case dataNascimento = "data_nascimento"
-            case informacoesMedicas = "informacoes_medicas"
+            case sexo
+            case dataNascimento = "nasc"
+            case informacoes_medicas
+            case vacinas
+            case imagem
+            case species
         }
 }

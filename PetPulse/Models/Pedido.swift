@@ -9,13 +9,14 @@ import Foundation
 
 // MARK: - Pedidos
 struct Pedido: Identifiable, Codable {
-    let id: Int
-    let rev: String
+    let id: Int?
+    let rev: String?
     var tutorId: Int
     var petshopId: Int
     var dataPedido: Date
-    var tipoEntrega: String
+    var tipoEntrega: tipoEntrega
     var statusPedido: String
+    var itemPedido: [ItemPedido]
     enum CodingKeys: String, CodingKey {
             case id = "_id"
             case rev = "_rev"
@@ -24,5 +25,6 @@ struct Pedido: Identifiable, Codable {
             case dataPedido = "data_pedido"
             case tipoEntrega = "tipo_entrega"
             case statusPedido = "status_pedido"
+            case itemPedido = "item_pedido"
         }
 }
