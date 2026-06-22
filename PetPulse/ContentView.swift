@@ -1,24 +1,144 @@
-//
-//  ContentView.swift
-//  PetPulse
-//
-//  Created by Turma02-10 on 18/06/26.
-//
-
 import SwiftUI
 
+
+
 struct ContentView: View {
+
+
+
+    @StateObject var viewModel = PetViewModel()
+
+
+
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("hasdhnljasndbkjanbdljasdbnakj")
+
+
+
+        TabView {
+
+
+
+            NavigationStack {
+
+
+
+                ScrollView {
+
+
+
+                    VStack(
+                        spacing:25
+                    ) {
+
+
+
+                        ForEach(
+                            viewModel.pets
+                        ) { pet in
+
+
+
+                            PetCardView(
+                                pet: pet
+                            )
+
+
+                        }
+
+
+
+                    }
+                    .padding(.top)
+
+
+
+                }
+
+
+                .navigationTitle(
+                    "Meus Pets"
+                )
+
+
+            }
+
+
+
+            .tabItem {
+
+
+                Label(
+                    "Home",
+                    systemImage:"pawprint.fill"
+                )
+
+
+            }
+
+
+
+
+
+
+            Text("Loja")
+
+                .tabItem {
+
+
+                    Label(
+                        "Loja",
+                        systemImage:"cart.fill"
+                    )
+
+
+                }
+
+
+
+
+
+
+
+            Text("Notificações")
+
+
+                .tabItem {
+
+
+                    Label(
+                        "Notificações",
+                        systemImage:"bell.fill"
+                    )
+
+
+                }
+
+
+
         }
-        .padding()
+
+
+        .onAppear {
+
+
+            viewModel.carregarPetsDoBanco()
+
+
+        }
+
+
     }
+
 }
 
+
+
+
 #Preview {
+
+
     ContentView()
+
+
 }
