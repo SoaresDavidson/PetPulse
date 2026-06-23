@@ -39,7 +39,7 @@ class PetViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let decodedResponse = try decoder.decode(Pet.self, from: data)
-                self.responseMessage = "Sucesso! Pet criado com ID: \(decodedResponse.id ?? "")"
+                self.responseMessage = "Sucesso! Pet criado com ID: \(decodedResponse.id ?? 0)"
                 
             } else {
                 self.responseMessage = "Erro no servidor ao criar."
