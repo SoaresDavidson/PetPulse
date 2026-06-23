@@ -9,12 +9,13 @@ import Foundation
 
 // MARK: - Vacinas Pet
 struct VacinaPet: Identifiable, Codable {
-    let id: Int?
-    let nome: String
-    let dataAplicacao: Date
+    let id: Int?                 // o JSON não mostrou _id; se não existir, pode ser sempre nil
+    let nome: String             // "nome_vacina"
+    let dataAplicacao: Date      // "data_aplicacao" (yyyy-MM-dd)
+
     enum CodingKeys: String, CodingKey {
-            case id = "_id"
-            case nome
-            case dataAplicacao = "dataAp"
+        case id = "_id"                  // manter se a API às vezes enviar _id; do contrário, pode remover
+        case nome = "nome_vacina"
+        case dataAplicacao = "data_aplicacao"
     }
 }

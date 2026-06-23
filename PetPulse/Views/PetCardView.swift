@@ -12,8 +12,8 @@ struct PetCardView: View {
             HStack {
                 Spacer()
 
-                if let status = pet.id, !status.isEmpty {
-                    Text(status)
+                if let id = pet.id, id != 0 {
+                    Text(String(id))
                         .font(
                             .system(
                                 size: 11,
@@ -37,7 +37,9 @@ struct PetCardView: View {
             // FOTO + INFORMAÇÕES
             HStack(spacing: 16) {
 
-                if !pet.imagem.isEmpty, let url = URL(string: pet.imagem) {
+                if let imageString = pet.imagem,
+                   !imageString.isEmpty,
+                   let url = URL(string: imageString) {
                     AsyncImage(url: url) { image in
                         image
                             .resizable()
@@ -93,12 +95,14 @@ struct PetCardView: View {
 
                     // Tags (substitui "servicos" inexistente): sexo, espécie e contagem de vacinas
                     HStack(spacing: 5) {
-                        Text(pet.sexo)
-                            .font(.system(size: 11))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
-                            .background(Color.blue.opacity(0.15))
-                            .clipShape(Capsule())
+                        if let sexo = pet.sexo, !sexo.isEmpty {
+                            Text(sexo)
+                                .font(.system(size: 11))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 5)
+                                .background(Color.blue.opacity(0.15))
+                                .clipShape(Capsule())
+                        }
 
                         Text(pet.species.rawValue)
                             .font(.system(size: 11))

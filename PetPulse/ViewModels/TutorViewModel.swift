@@ -9,7 +9,15 @@ class TutorViewModel: ObservableObject {
     @Published var tutorLogado: Tutor?
     let baseURLString: String = "http://192.168.128.137:1880/tutores"
     
-
+    // Formatter para datas no formato "yyyy-MM-dd"
+    private static let ymdFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }()
+    
     // Busca o tutor específico pelo ID
     func getPerfilLogado(idDoTutorLogado: String) async {
         isLoading = true
@@ -30,7 +38,8 @@ class TutorViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                // Datas vêm como "yyyy-MM-dd" em pets/vacinas
+                decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
                 let tutor = try decoder.decode(Tutor.self, from: data)
                 
                 self.tutorLogado = tutor
@@ -54,7 +63,9 @@ class TutorViewModel: ObservableObject {
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601 // Caso Pet ou Notificacao tenham datas
+        // Se você envia datas como "yyyy-MM-dd", pode usar o mesmo formatter.
+        // Caso sua API exija outro formato para POST, ajuste aqui.
+        encoder.dateEncodingStrategy = .formatted(Self.ymdFormatter)
         guard let encodedData = try? encoder.encode(tutor) else {
             responseMessage = "Falha ao codificar os dados do Tutor."
             return
@@ -72,7 +83,7 @@ class TutorViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
                 let decodedResponse = try decoder.decode(Tutor.self, from: data)
                 self.responseMessage = "Sucesso! Tutor criado com ID: \(String(describing: decodedResponse.id))"
                 
@@ -104,7 +115,7 @@ class TutorViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
                 let decodedTutores = try decoder.decode([Tutor].self, from: data)
                 self.tutores = decodedTutores
                 self.responseMessage = "Sucesso! \(decodedTutores.count) tutores carregados."
@@ -123,13 +134,13 @@ class TutorViewModel: ObservableObject {
         defer { isLoading = false }
         
         // Se usar CouchDB, pode ser necessário enviar o rev na URL: "?rev=\(tutor.rev)"
-        guard let url = URL(string: "\(baseURLString)/\(tutor.id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(String(describing: tutor.id))") else {
             responseMessage = "URL inválida."
             return
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .formatted(Self.ymdFormatter)
         guard let encodedData = try? encoder.encode(tutor) else {
             responseMessage = "Falha ao codificar os dados do Tutor."
             return
