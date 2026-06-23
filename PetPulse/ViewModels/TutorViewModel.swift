@@ -6,10 +6,43 @@ class TutorViewModel: ObservableObject {
     @Published var responseMessage: String = ""
     @Published var isLoading: Bool = false
     @Published var tutores: [Tutor] = []
-    
-    // Ajuste o path conforme seu endpoint real (ex: /tutores)
+    @Published var tutorLogado: Tutor?
     let baseURLString: String = "http://192.168.128.137:1880/tutores"
     
+
+    // Busca o tutor específico pelo ID
+    func getPerfilLogado(idDoTutorLogado: String) async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        guard let url = URL(string: "\(baseURLString)/\(idDoTutorLogado)") else {
+            responseMessage = "URL inválida."
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            if let httpResponse = response as? HTTPURLResponse,
+               (200...299).contains(httpResponse.statusCode) {
+                
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                let tutor = try decoder.decode(Tutor.self, from: data)
+                
+                self.tutorLogado = tutor
+                self.responseMessage = "Perfil carregado com sucesso!"
+                
+            } else {
+                self.responseMessage = "Erro ao buscar perfil."
+            }
+        } catch {
+            self.responseMessage = "Erro na requisição: \(error.localizedDescription)"
+        }
+    }
     // MARK: - POST (Criar)
     func postTutor(tutor: Tutor) async {
         isLoading = true
@@ -41,7 +74,7 @@ class TutorViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let decodedResponse = try decoder.decode(Tutor.self, from: data)
-                self.responseMessage = "Sucesso! Tutor criado com ID: \(decodedResponse.id)"
+                self.responseMessage = "Sucesso! Tutor criado com ID: \(String(describing: decodedResponse.id))"
                 
             } else {
                 self.responseMessage = "Erro no servidor ao criar Tutor."

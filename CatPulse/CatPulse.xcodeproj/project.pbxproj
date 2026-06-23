@@ -7,44 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		407043082FE498BC00AE0649 /* PetPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0682BBFE2FE4A864009FD982 /* CatPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		407043222FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "PetPulse" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				.gitkeep,
-				Info.plist,
-			);
-			target = 407043072FE498BC00AE0649 /* PetPulse */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		407043232FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "Compile Sources" phase from "PetPulse" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 407043042FE498BC00AE0649 /* Sources */;
-			membershipExceptions = (
-				.gitkeep,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4070430A2FE498BC00AE0649 /* PetPulse */ = {
+		0682BC002FE4A864009FD982 /* CatPulse */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				407043222FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "PetPulse" target */,
-				407043232FE49A4900AE0649 /* Exceptions for "PetPulse" folder in "Compile Sources" phase from "PetPulse" target */,
-			);
-			path = PetPulse;
+			path = CatPulse;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		407043052FE498BC00AE0649 /* Frameworks */ = {
+		0682BBFB2FE4A864009FD982 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -54,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		407042FF2FE498BC00AE0649 = {
+		0682BBF52FE4A864009FD982 = {
 			isa = PBXGroup;
 			children = (
-				4070430A2FE498BC00AE0649 /* PetPulse */,
-				407043092FE498BC00AE0649 /* Products */,
+				0682BC002FE4A864009FD982 /* CatPulse */,
+				0682BBFF2FE4A864009FD982 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		407043092FE498BC00AE0649 /* Products */ = {
+		0682BBFF2FE4A864009FD982 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				407043082FE498BC00AE0649 /* PetPulse.app */,
+				0682BBFE2FE4A864009FD982 /* CatPulse.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,64 +48,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		407043072FE498BC00AE0649 /* PetPulse */ = {
+		0682BBFD2FE4A864009FD982 /* CatPulse */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 407043132FE498BD00AE0649 /* Build configuration list for PBXNativeTarget "PetPulse" */;
+			buildConfigurationList = 0682BC092FE4A866009FD982 /* Build configuration list for PBXNativeTarget "CatPulse" */;
 			buildPhases = (
-				407043042FE498BC00AE0649 /* Sources */,
-				407043052FE498BC00AE0649 /* Frameworks */,
-				407043062FE498BC00AE0649 /* Resources */,
+				0682BBFA2FE4A864009FD982 /* Sources */,
+				0682BBFB2FE4A864009FD982 /* Frameworks */,
+				0682BBFC2FE4A864009FD982 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4070430A2FE498BC00AE0649 /* PetPulse */,
+				0682BC002FE4A864009FD982 /* CatPulse */,
 			);
-			name = PetPulse;
+			name = CatPulse;
 			packageProductDependencies = (
 			);
-			productName = PetPulse;
-			productReference = 407043082FE498BC00AE0649 /* PetPulse.app */;
+			productName = CatPulse;
+			productReference = 0682BBFE2FE4A864009FD982 /* CatPulse.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		407043002FE498BC00AE0649 /* Project object */ = {
+		0682BBF62FE4A864009FD982 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
-					407043072FE498BC00AE0649 = {
+					0682BBFD2FE4A864009FD982 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
 			};
-			buildConfigurationList = 407043032FE498BC00AE0649 /* Build configuration list for PBXProject "PetPulse" */;
+			buildConfigurationList = 0682BBF92FE4A864009FD982 /* Build configuration list for PBXProject "CatPulse" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 407042FF2FE498BC00AE0649;
+			mainGroup = 0682BBF52FE4A864009FD982;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 407043092FE498BC00AE0649 /* Products */;
+			productRefGroup = 0682BBFF2FE4A864009FD982 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				407043072FE498BC00AE0649 /* PetPulse */,
+				0682BBFD2FE4A864009FD982 /* CatPulse */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		407043062FE498BC00AE0649 /* Resources */ = {
+		0682BBFC2FE4A864009FD982 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -140,7 +115,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		407043042FE498BC00AE0649 /* Sources */ = {
+		0682BBFA2FE4A864009FD982 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -150,7 +125,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		407043112FE498BD00AE0649 /* Debug */ = {
+		0682BC072FE4A866009FD982 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -213,7 +188,7 @@
 			};
 			name = Debug;
 		};
-		407043122FE498BD00AE0649 /* Release */ = {
+		0682BC082FE4A866009FD982 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -269,7 +244,7 @@
 			};
 			name = Release;
 		};
-		407043142FE498BD00AE0649 /* Debug */ = {
+		0682BC0A2FE4A866009FD982 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -278,8 +253,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PetPulse/Info.plist;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -290,7 +263,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dontHave.PetPulse;
+				PRODUCT_BUNDLE_IDENTIFIER = teste.CatPulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -302,7 +275,7 @@
 			};
 			name = Debug;
 		};
-		407043152FE498BD00AE0649 /* Release */ = {
+		0682BC0B2FE4A866009FD982 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -311,8 +284,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PetPulse/Info.plist;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -323,7 +294,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dontHave.PetPulse;
+				PRODUCT_BUNDLE_IDENTIFIER = teste.CatPulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -338,25 +309,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		407043032FE498BC00AE0649 /* Build configuration list for PBXProject "PetPulse" */ = {
+		0682BBF92FE4A864009FD982 /* Build configuration list for PBXProject "CatPulse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407043112FE498BD00AE0649 /* Debug */,
-				407043122FE498BD00AE0649 /* Release */,
+				0682BC072FE4A866009FD982 /* Debug */,
+				0682BC082FE4A866009FD982 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		407043132FE498BD00AE0649 /* Build configuration list for PBXNativeTarget "PetPulse" */ = {
+		0682BC092FE4A866009FD982 /* Build configuration list for PBXNativeTarget "CatPulse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				407043142FE498BD00AE0649 /* Debug */,
-				407043152FE498BD00AE0649 /* Release */,
+				0682BC0A2FE4A866009FD982 /* Debug */,
+				0682BC0B2FE4A866009FD982 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 407043002FE498BC00AE0649 /* Project object */;
+	rootObject = 0682BBF62FE4A864009FD982 /* Project object */;
 }

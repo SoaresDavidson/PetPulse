@@ -194,3 +194,13 @@ class AgendamentoViewModel: ObservableObject {
         }
     }
 }
+
+// Helper para filtrar por dia ignorando hora
+extension AgendamentoViewModel {
+    func agendamentosDoDia(_ dia: Date) -> [Scheduling] {
+        let cal = Calendar.current
+        return agendamentos.filter { ag in
+            cal.isDate(ag.dataHoraAgendamento, inSameDayAs: dia)
+        }
+    }
+}
