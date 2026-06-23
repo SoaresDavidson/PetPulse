@@ -1,18 +1,32 @@
 import SwiftUI
 
+
 struct PetCardView: View {
+
 
     var pet: Pet
 
+
+
     var body: some View {
+
 
         VStack(spacing: 0) {
 
+
+
             // STATUS NO CANTO SUPERIOR DIREITO
+
             HStack {
+
+
                 Spacer()
 
-                if let status = pet.id, !status.isEmpty {
+
+
+                if let status = pet.status {
+
+
                     Text(status)
                         .font(
                             .system(
@@ -29,21 +43,48 @@ struct PetCardView: View {
                         .clipShape(
                             Capsule()
                         )
+
+
                 }
+
+
             }
             .padding(.top, 14)
             .padding(.horizontal, 22)
 
-            // FOTO + INFORMAÇÕES
+
+
+
+
+
+
+            // FOTO + INFORMAÇÕES (corrigir saporra depois)
+
+
             HStack(spacing: 16) {
 
-                if !pet.imagem.isEmpty, let url = URL(string: pet.imagem) {
-                    AsyncImage(url: url) { image in
+
+
+                if let imagem = pet.imagem,
+                   !imagem.isEmpty {
+
+
+                    AsyncImage(
+                        url: URL(string: imagem)
+                    ) { image in
+
+
                         image
                             .resizable()
                             .scaledToFill()
+
+
                     } placeholder: {
+
+
                         ProgressView()
+
+
                     }
                     .frame(
                         width: 90,
@@ -54,7 +95,13 @@ struct PetCardView: View {
                             cornerRadius: 25
                         )
                     )
+
+
+
                 } else {
+
+
+
                     RoundedRectangle(
                         cornerRadius: 25
                     )
@@ -65,146 +112,283 @@ struct PetCardView: View {
                         width: 90,
                         height: 90
                     )
+
+
                 }
+
+
+
 
                 VStack(
                     alignment: .leading,
                     spacing: 7
                 ) {
 
-                    Text(pet.nome)
-                        .font(
-                            .system(
-                                size: 24,
-                                weight: .bold
-                            )
-                        )
-                        .foregroundColor(
-                            .blue
-                        )
 
-                    Label(
-                        pet.raca,
-                        systemImage: "pawprint.fill"
+
+                    Text(
+                        pet.nome ?? ""
                     )
                     .font(
-                        .system(size: 14)
+                        .system(
+                            size: 24,
+                            weight: .bold
+                        )
+                    )
+                    .foregroundColor(
+                        .blue
                     )
 
-                    // Tags (substitui "servicos" inexistente): sexo, espécie e contagem de vacinas
-                    HStack(spacing: 5) {
-                        Text(pet.sexo)
-                            .font(.system(size: 11))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
-                            .background(Color.blue.opacity(0.15))
-                            .clipShape(Capsule())
 
-                        Text(pet.species.rawValue)
-                            .font(.system(size: 11))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
-                            .background(Color.blue.opacity(0.15))
-                            .clipShape(Capsule())
 
-                        Text("\(pet.vacinas.count) vacina(s)")
-                            .font(.system(size: 11))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
-                            .background(Color.blue.opacity(0.15))
-                            .clipShape(Capsule())
+
+
+                    if let raca = pet.raca {
+
+
+
+                        Label(
+                            raca,
+                            systemImage: "pawprint.fill"
+                        )
+                        .font(
+                            .system(size: 14)
+                        )
+
+
                     }
+
+
+
+
+
+
+
+                    if let servicos = pet.servicos {
+
+
+
+                        HStack(spacing: 5) {
+
+
+
+                            ForEach(
+                                servicos.prefix(2),
+                                id: \.self
+                            ) { servico in
+
+
+
+                                Text(servico)
+                                    .font(
+                                        .system(size: 11)
+                                    )
+                                    .padding(.horizontal,8)
+                                    .padding(.vertical,5)
+                                    .background(
+                                        Color.blue.opacity(0.15)
+                                    )
+                                    .clipShape(
+                                        Capsule()
+                                    )
+
+
+                            }
+
+
+                        }
+
+
+                    }
+
+
+
                 }
 
+
+
                 Spacer()
+
+
+
             }
-            .padding(.horizontal, 22)
-            .padding(.top, 2)
-            .padding(.bottom, 6)
+            .padding(.horizontal,22)
+            .padding(.top,2)
+            .padding(.bottom,6)
+
+
+
+
+
+
+
+
 
             Divider()
-                .padding(.horizontal, 22)
-                .padding(.vertical, 6)
+                .padding(.horizontal,22)
+                .padding(.vertical,6)
 
-            // DATA DE NASCIMENTO
+
+
+
+
+
+
+
+            // DATA DO ÚLTIMO SERVIÇO
+
+
             HStack {
-                Text("Nasc.: \(pet.dataNascimento.formatted(date: .abbreviated, time: .omitted))")
-                    .font(.system(size: 14))
-                    .italic()
+
+
+                Text(
+                    pet.ultimoServico != nil ?
+                    "Último serviço: \(pet.ultimoServico!)"
+                    :
+                    ""
+                )
+                .font(
+                    .system(size:14)
+                )
+                .italic()
+
+
 
                 Spacer()
+
+
+
             }
-            .frame(height: 32)
-            .padding(.horizontal, 22)
+            .frame(height:32)
+            .padding(.horizontal,22)
+
+
+
+
+
+
+
+
 
             // BOTÕES
-            HStack(spacing: 12) {
 
-                Button {
-                    // Ação de detalhes
+
+            HStack(spacing:12) {
+
+
+
+                NavigationLink {
+
+
+                    PetDetalhesView(
+                        pet: pet
+                    )
+
+
                 } label: {
+
+
                     Text("Detalhes")
                         .font(
                             .system(
-                                size: 15,
-                                weight: .semibold
+                                size:15,
+                                weight:.semibold
                             )
                         )
                         .foregroundColor(.white)
                         .frame(
-                            maxWidth: .infinity
+                            maxWidth:.infinity
                         )
-                        .padding(.vertical, 10)
+                        .padding(.vertical,10)
                         .background(
                             Color.blue
                         )
                         .clipShape(
                             Capsule()
                         )
+
+
                 }
 
-                Button {
-                    // Ação de agendar
+
+
+
+                NavigationLink {
+
+
+                    AgendarView(
+                        pet:pet
+                    )
+
+
                 } label: {
+
+
                     Text("Agendar")
                         .font(
                             .system(
-                                size: 15,
-                                weight: .semibold
+                                size:15,
+                                weight:.semibold
                             )
                         )
                         .foregroundColor(.black)
                         .frame(
-                            maxWidth: .infinity
+                            maxWidth:.infinity
                         )
-                        .padding(.vertical, 10)
+                        .padding(.vertical,10)
                         .background(
                             Color.orange
                         )
                         .clipShape(
                             Capsule()
                         )
+
+
                 }
+
+
+
             }
-            .padding(.horizontal, 22)
-            .padding(.bottom, 12)
+            .padding(.horizontal,22)
+            .padding(.bottom,12)
+
+
+
+
+
         }
+
+
+
+
         .frame(
             width: UIScreen.main.bounds.width * 0.82,
-            height: 230
+            height:230
         )
+
+
+
         .background(
             Color.white
         )
+
+
+
         .clipShape(
             RoundedRectangle(
-                cornerRadius: 32
+                cornerRadius:32
             )
         )
+
+
+
         .shadow(
-            color: Color.black.opacity(0.08),
-            radius: 10,
-            y: 5
+            color:Color.black.opacity(0.08),
+            radius:10,
+            y:5
         )
+
+
     }
+
 }

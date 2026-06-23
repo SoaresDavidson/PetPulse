@@ -39,7 +39,7 @@ class PetViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let decodedResponse = try decoder.decode(Pet.self, from: data)
-                self.responseMessage = "Sucesso! Pet criado com ID: \(decodedResponse.id)"
+                self.responseMessage = "Sucesso! Pet criado com ID: \(decodedResponse.id ?? "")"
                 
             } else {
                 self.responseMessage = "Erro no servidor ao criar."
@@ -50,13 +50,13 @@ class PetViewModel: ObservableObject {
     }
     
     // MARK: - GET (Ler)
-    func getPets() async {
+    func getPets() async -> [Pet]? {
         isLoading = true
         defer { isLoading = false }
         
         guard let url = URL(string: baseURLString) else {
             responseMessage = "URL inválida."
-            return
+            return nil
         }
         
         var request = URLRequest(url: url)
@@ -74,12 +74,14 @@ class PetViewModel: ObservableObject {
                 let decodedPets = try decoder.decode([Pet].self, from: data)
                 self.pets = decodedPets
                 self.responseMessage = "Sucesso! \(decodedPets.count) pets carregados."
-                
+                return decodedPets
             } else {
                 self.responseMessage = "Erro no servidor ao buscar pets."
+                return nil
             }
         } catch {
             self.responseMessage = "Erro na requisição GET: \(error.localizedDescription)"
+            return nil
         }
     }
     
@@ -88,8 +90,8 @@ class PetViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        // Normalmente, o PUT exige o ID na URL
-        guard let url = URL(string: "\(baseURLString)/\(pet.id)") else {
+        guard let id = pet.id,
+              let url = URL(string: "\(baseURLString)/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
