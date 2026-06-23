@@ -17,7 +17,7 @@ struct PetPulseApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TelaInicialView()
                 .environmentObject(petViewModel)
                 .environmentObject(tutorViewModel)
                 .environmentObject(petshopViewModel)
