@@ -1,0 +1,4090 @@
+[
+    {
+        "id": "tab_petpulse",
+        "type": "tab",
+        "label": "PetPulse Cloudant",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "get_petshops",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /petshops",
+        "url": "/petshops",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 40,
+        "wires": [
+            [
+                "fn_get_petshops"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_petshops",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar query",
+        "func": "msg.payload = '';\nreturn msg;",
+        "outputs": 1,
+        "x": 270,
+        "y": 40,
+        "wires": [
+            [
+                "437748c36410086f"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_get_petshops",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 40,
+        "wires": [
+            [
+                "res_get_petshops"
+            ]
+        ]
+    },
+    {
+        "id": "res_get_petshops",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "get_petshop_id",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /petshops/:id",
+        "url": "/petshops/:id",
+        "method": "get",
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "fn_get_petshop_id"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_petshop_id",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "5862e3882a051a0a"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_get_id",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if(!msg.payload){\n  msg.payload = { erro: 'Petshop nao encontrado' };\n  msg.statusCode = 404;\n} else {\n  msg.statusCode = 200;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 100,
+        "wires": [
+            [
+                "res_get_petshop_id"
+            ]
+        ]
+    },
+    {
+        "id": "res_get_petshop_id",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "post_petshop",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /petshops",
+        "url": "/petshops",
+        "method": "post",
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "fn_post_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "fn_post_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Montar documento",
+        "func": "let body = msg.payload;\nbody._id = body._id || ('petshop_' + Date.now());\nbody.nome = body.nome || '';\nbody.servicos = body.servicos || [];\nbody.itens_estoque = body.itens_estoque || [];\nmsg.payload = body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "3455dbc25b37998d"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_post_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: 'Sucesso', mensagem: 'Petshop cadastrado', resultado: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 680,
+        "y": 160,
+        "wires": [
+            [
+                "res_post_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "res_post_petshop",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 860,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "put_petshop",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /petshops/:id",
+        "url": "/petshops/:id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 220,
+        "wires": [
+            [
+                "fn_get_before_put_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_before_put_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id atual",
+        "func": "msg.novosDados = msg.payload;\nmsg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 220,
+        "wires": [
+            [
+                "cac9be0de56f0b53"
+            ]
+        ]
+    },
+    {
+        "id": "fn_merge_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Mesclar dados",
+        "func": "if(!msg.payload){\n  msg.statusCode = 404;\n  msg.payload = { erro: 'Petshop nao encontrado' };\n  return msg;\n}\nlet atual = msg.payload;\nlet novos = msg.novosDados;\nObject.assign(atual, novos);\nmsg.payload = atual;\nreturn msg;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 220,
+        "wires": [
+            [
+                "d6abc80dbc371899"
+            ],
+            [
+                "res_put_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_put_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if(!msg.statusCode){ msg.statusCode = 200; msg.payload = { status: 'Sucesso', mensagem: 'Petshop atualizado' }; }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 180,
+        "wires": [
+            [
+                "res_put_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "res_put_petshop",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1260,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "del_petshop",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /petshops/:id",
+        "url": "/petshops/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 280,
+        "wires": [
+            [
+                "fn_get_before_del_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_before_del_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 280,
+        "wires": [
+            [
+                "4261ec5faeafa287"
+            ]
+        ]
+    },
+    {
+        "id": "fn_prep_delete_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar delete",
+        "func": "if(!msg.payload){\n  msg.statusCode = 404;\n  msg.payload = { erro: 'Petshop nao encontrado' };\n  return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 280,
+        "wires": [
+            [
+                "50bd41972169c248"
+            ],
+            [
+                "res_del_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_del_petshop",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: 'Sucesso', mensagem: 'Petshop deletado' };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 260,
+        "wires": [
+            [
+                "res_del_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "res_del_petshop",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "get_tutores",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /tutores",
+        "url": "/tutores",
+        "method": "get",
+        "x": 90,
+        "y": 360,
+        "wires": [
+            [
+                "fn_get_tutores"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_tutores",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar query",
+        "func": "msg.payload = '';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 360,
+        "wires": [
+            [
+                "d280f1d67c5a76f6"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_get_tutores",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "res_get_tutores"
+            ]
+        ]
+    },
+    {
+        "id": "res_get_tutores",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "get_tutor_id",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /tutores/:id",
+        "url": "/tutores/:id",
+        "method": "get",
+        "x": 90,
+        "y": 420,
+        "wires": [
+            [
+                "fn_get_tutor_id"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_tutor_id",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 420,
+        "wires": [
+            [
+                "b7016e000037b544"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_get_tutor_id",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if(!msg.payload){\n  msg.payload = { erro: 'Tutor nao encontrado' };\n  msg.statusCode = 404;\n} else {\n  msg.statusCode = 200;\n}\nreturn msg;",
+        "outputs": 1,
+        "x": 650,
+        "y": 420,
+        "wires": [
+            [
+                "res_get_tutor_id"
+            ]
+        ]
+    },
+    {
+        "id": "res_get_tutor_id",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "post_tutor",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /tutores",
+        "url": "/tutores",
+        "method": "post",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "fn_post_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "fn_post_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Montar documento",
+        "func": "let body = msg.payload;\nbody._id = body._id || ('tutor_' + Date.now());\nbody.nome = body.nome || '';\nbody.cpf = body.cpf || '';\nbody.email = body.email || '';\nbody.telefone = body.telefone || '';\nbody.endereco = body.endereco || '';\nbody.notificacoes = body.notificacoes || [];\nbody.pets = (body.pets || []).map(function(pet, i){\n  pet.id = pet.id || (Date.now() + i);\n  pet.vacinas = pet.vacinas || [];\n  return pet;\n});\nmsg.payload = body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 480,
+        "wires": [
+            [
+                "3a2d41aa0f119cb3"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_post_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: 'Sucesso', mensagem: 'Tutor e pets cadastrados', resultado: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "x": 680,
+        "y": 480,
+        "wires": [
+            [
+                "res_post_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "res_post_tutor",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 860,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "put_tutor",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /tutores/:id",
+        "url": "/tutores/:id",
+        "method": "put",
+        "x": 90,
+        "y": 540,
+        "wires": [
+            [
+                "fn_get_before_put_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_before_put_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id atual",
+        "func": "msg.novosDados = msg.payload;\nmsg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "x": 300,
+        "y": 540,
+        "wires": [
+            [
+                "af91c76e7c4d51ba"
+            ]
+        ]
+    },
+    {
+        "id": "fn_merge_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Mesclar dados",
+        "func": "if(!msg.payload){\n  msg.statusCode = 404;\n  msg.payload = { erro: 'Tutor nao encontrado' };\n  return msg;\n}\nlet atual = msg.payload;\nlet novos = msg.novosDados;\nObject.assign(atual, novos);\nmsg.payload = atual;\nreturn msg;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 540,
+        "wires": [
+            [
+                "f8d38a1fb4b81baa"
+            ],
+            [
+                "res_put_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_put_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if(!msg.statusCode){ msg.statusCode = 200; msg.payload = { status: 'Sucesso', mensagem: 'Tutor atualizado' }; }\nreturn msg;",
+        "outputs": 1,
+        "x": 1090,
+        "y": 520,
+        "wires": [
+            [
+                "res_put_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "res_put_tutor",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1260,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "del_tutor",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /tutores/:id",
+        "url": "/tutores/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 600,
+        "wires": [
+            [
+                "fn_get_before_del_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "fn_get_before_del_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "x": 290,
+        "y": 600,
+        "wires": [
+            [
+                "f68f0343a9c57a26"
+            ]
+        ]
+    },
+    {
+        "id": "fn_prep_delete_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar delete",
+        "func": "if(!msg.payload){\n  msg.statusCode = 404;\n  msg.payload = { erro: 'Tutor nao encontrado' };\n  return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "x": 700,
+        "y": 600,
+        "wires": [
+            [
+                "83a8afc3ea27293b"
+            ],
+            [
+                "res_del_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "fn_format_del_tutor",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: 'Sucesso', mensagem: 'Tutor deletado' };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 580,
+        "wires": [
+            [
+                "res_del_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "res_del_tutor",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "3455dbc25b37998d",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "fn_format_post_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "3a2d41aa0f119cb3",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 460,
+        "y": 500,
+        "wires": [
+            [
+                "fn_format_post_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "50bd41972169c248",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "delete",
+        "x": 920,
+        "y": 260,
+        "wires": [
+            [
+                "fn_format_del_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "437748c36410086f",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 440,
+        "y": 40,
+        "wires": [
+            [
+                "fn_format_get_petshops"
+            ]
+        ]
+    },
+    {
+        "id": "cac9be0de56f0b53",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "fn_merge_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "d6abc80dbc371899",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 860,
+        "y": 220,
+        "wires": [
+            [
+                "fn_format_put_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "5862e3882a051a0a",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 420,
+        "y": 100,
+        "wires": [
+            [
+                "fn_format_get_id"
+            ]
+        ]
+    },
+    {
+        "id": "dbdce4887fcbc8f8",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /tutores/:tutor_id/pets",
+        "url": "/tutores/:tutor_id/pets",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "a99426b8203c7ef8"
+            ]
+        ]
+    },
+    {
+        "id": "a99426b8203c7ef8",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id tutor",
+        "func": "msg.novoPet = msg.payload;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 700,
+        "wires": [
+            [
+                "c447166005fe2d72"
+            ]
+        ]
+    },
+    {
+        "id": "d280f1d67c5a76f6",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "fn_format_get_tutores"
+            ]
+        ]
+    },
+    {
+        "id": "b7016e000037b544",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 420,
+        "y": 440,
+        "wires": [
+            [
+                "fn_format_get_tutor_id"
+            ]
+        ]
+    },
+    {
+        "id": "af91c76e7c4d51ba",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 460,
+        "y": 560,
+        "wires": [
+            [
+                "fn_merge_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "f8d38a1fb4b81baa",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 860,
+        "y": 520,
+        "wires": [
+            [
+                "fn_format_put_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "83a8afc3ea27293b",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "delete",
+        "x": 940,
+        "y": 580,
+        "wires": [
+            [
+                "fn_format_del_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "f68f0343a9c57a26",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 440,
+        "y": 620,
+        "wires": [
+            [
+                "fn_prep_delete_tutor"
+            ]
+        ]
+    },
+    {
+        "id": "4261ec5faeafa287",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "fn_prep_delete_petshop"
+            ]
+        ]
+    },
+    {
+        "id": "c447166005fe2d72",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 400,
+        "y": 800,
+        "wires": [
+            [
+                "e4acfcf14f5f36de"
+            ]
+        ]
+    },
+    {
+        "id": "e4acfcf14f5f36de",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Adiciona Pet",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet novoPet = msg.novoPet;\nnovoPet.id = novoPet.id || Date.now();\nnovoPet.vacinas = novoPet.vacinas || [];\n\ntutor.pets = tutor.pets || [];\ntutor.pets.push(novoPet);\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 800,
+        "wires": [
+            [
+                "7121e1094b6b4808"
+            ],
+            [
+                "7de5941b0f402b2d"
+            ]
+        ]
+    },
+    {
+        "id": "7de5941b0f402b2d",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "7121e1094b6b4808",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 740,
+        "y": 740,
+        "wires": [
+            [
+                "1dc18d0f6a115bea"
+            ]
+        ]
+    },
+    {
+        "id": "1dc18d0f6a115bea",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pet adicionado\", tutor: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 760,
+        "wires": [
+            [
+                "7de5941b0f402b2d"
+            ]
+        ]
+    },
+    {
+        "id": "63f433f704a591b6",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT/ /tutores/:tutor_id/pets/:pet_id",
+        "url": "/tutores/:tutor_id/pets/:pet_id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 860,
+        "wires": [
+            [
+                "e4b5f6db31dd5a80"
+            ]
+        ]
+    },
+    {
+        "id": "e4b5f6db31dd5a80",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.dadosNovos = msg.payload;\nmsg.petId = msg.req.params.pet_id;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 920,
+        "wires": [
+            [
+                "598ce701154fedda"
+            ]
+        ]
+    },
+    {
+        "id": "598ce701154fedda",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 460,
+        "y": 880,
+        "wires": [
+            [
+                "31ee1bf4b36cbe31"
+            ]
+        ]
+    },
+    {
+        "id": "31ee1bf4b36cbe31",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Atualiza pet",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet petId = msg.petId;\nlet idx = (tutor.pets || []).findIndex(p => p.id == petId);\n\nif (idx === -1) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Pet não encontrado\" };\n    return [null, msg];\n}\n\nObject.assign(tutor.pets[idx], msg.dadosNovos);\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 920,
+        "wires": [
+            [
+                "d1695eff1d68c3d1"
+            ],
+            [
+                "03a7b39b192bee3e"
+            ]
+        ]
+    },
+    {
+        "id": "d1695eff1d68c3d1",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 900,
+        "wires": [
+            [
+                "e3b1e04583c08ea3"
+            ]
+        ]
+    },
+    {
+        "id": "03a7b39b192bee3e",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "e3b1e04583c08ea3",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pet atualizado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 900,
+        "wires": [
+            [
+                "03a7b39b192bee3e"
+            ]
+        ]
+    },
+    {
+        "id": "8c809576c3e71739",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE/ /tutores/:tutor_id/pets/:pet_id",
+        "url": "/tutores/:tutor_id/pets/:pet_id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1020,
+        "wires": [
+            [
+                "3640b5a501e39e22"
+            ]
+        ]
+    },
+    {
+        "id": "3640b5a501e39e22",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.petId = msg.req.params.pet_id;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1100,
+        "wires": [
+            [
+                "d243c90683f7b553"
+            ]
+        ]
+    },
+    {
+        "id": "d243c90683f7b553",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 460,
+        "y": 1040,
+        "wires": [
+            [
+                "af98375f0df347eb"
+            ]
+        ]
+    },
+    {
+        "id": "af98375f0df347eb",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Remove pet",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet petId = msg.petId;\nlet tamanhoAntes = (tutor.pets || []).length;\ntutor.pets = (tutor.pets || []).filter(p => p.id != petId);\n\nif (tutor.pets.length === tamanhoAntes) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Pet não encontrado\" };\n    return [null, msg];\n}\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 1080,
+        "wires": [
+            [
+                "4c39273836b8d060"
+            ],
+            [
+                "5c3ef214e5effe01"
+            ]
+        ]
+    },
+    {
+        "id": "4c39273836b8d060",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 1060,
+        "wires": [
+            [
+                "9cd4a03b8a25f6ab"
+            ]
+        ]
+    },
+    {
+        "id": "5c3ef214e5effe01",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "9cd4a03b8a25f6ab",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pet removido\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 1060,
+        "wires": [
+            [
+                "5c3ef214e5effe01"
+            ]
+        ]
+    },
+    {
+        "id": "33cf02276659513f",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /tutores/:tutor_id/notificacoes",
+        "url": "/tutores/:tutor_id/notificacoes",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 1320,
+        "wires": [
+            [
+                "4c58d6927dcc9927"
+            ]
+        ]
+    },
+    {
+        "id": "4c58d6927dcc9927",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id tutor",
+        "func": "msg.novaNotificacao = msg.payload;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1280,
+        "wires": [
+            [
+                "412a51f55aeb5d21"
+            ]
+        ]
+    },
+    {
+        "id": "412a51f55aeb5d21",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 400,
+        "y": 1380,
+        "wires": [
+            [
+                "6e64b4b8b5d6ba2a"
+            ]
+        ]
+    },
+    {
+        "id": "6e64b4b8b5d6ba2a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Adiciona Notificacao",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet nova = msg.novaNotificacao;\nnova.id = nova.id || Date.now();\nnova.lida = false;\nnova.data_envio = nova.data_envio || new Date().toISOString();\n\ntutor.notificacoes = tutor.notificacoes || [];\ntutor.notificacoes.push(nova);\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1380,
+        "wires": [
+            [
+                "e6baba43b94468f0"
+            ],
+            [
+                "976616b1e8d15d49"
+            ]
+        ]
+    },
+    {
+        "id": "976616b1e8d15d49",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "e6baba43b94468f0",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 740,
+        "y": 1320,
+        "wires": [
+            [
+                "c40ac16204d67cfa"
+            ]
+        ]
+    },
+    {
+        "id": "c40ac16204d67cfa",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Notificacao adicionado\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 1340,
+        "wires": [
+            [
+                "976616b1e8d15d49"
+            ]
+        ]
+    },
+    {
+        "id": "eee5011239409245",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT/ /tutores/:tutor_id/notificacoes/:notif_id",
+        "url": "/tutores/:tutor_id/notificacoes/:notif_id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1440,
+        "wires": [
+            [
+                "92f90423675acfec"
+            ]
+        ]
+    },
+    {
+        "id": "92f90423675acfec",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.notifId = msg.req.params.notif_id;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 1500,
+        "wires": [
+            [
+                "72a84bc3d7b4494f"
+            ]
+        ]
+    },
+    {
+        "id": "72a84bc3d7b4494f",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 500,
+        "y": 1460,
+        "wires": [
+            [
+                "3062483a4ece6a7b"
+            ]
+        ]
+    },
+    {
+        "id": "3062483a4ece6a7b",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Marcada como lida",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet notif = (tutor.notificacoes || []).find(n => n.id == msg.notifId);\n\nif (!notif) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Notificação não encontrada\" };\n    return [null, msg];\n}\n\nnotif.lida = true;\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1500,
+        "wires": [
+            [
+                "899b468a6b08ec6f"
+            ],
+            [
+                "d3f746a2f55ac06c"
+            ]
+        ]
+    },
+    {
+        "id": "899b468a6b08ec6f",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 1480,
+        "wires": [
+            [
+                "c77ca95030e72c01"
+            ]
+        ]
+    },
+    {
+        "id": "d3f746a2f55ac06c",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "c77ca95030e72c01",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Notificação marcada como lida\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 1480,
+        "wires": [
+            [
+                "d3f746a2f55ac06c"
+            ]
+        ]
+    },
+    {
+        "id": "f50c9d2afed9df9f",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /tutores/:tutor_id/notificacoes/:notif_id",
+        "url": "/tutores/:tutor_id/notificacoes/:notif_id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 1580,
+        "wires": [
+            [
+                "28d8c05278089b9a"
+            ]
+        ]
+    },
+    {
+        "id": "28d8c05278089b9a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.notifId = msg.req.params.notif_id;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1680,
+        "wires": [
+            [
+                "65f951d8a6ff591a"
+            ]
+        ]
+    },
+    {
+        "id": "65f951d8a6ff591a",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 460,
+        "y": 1620,
+        "wires": [
+            [
+                "f5fcf34dbc545a9e"
+            ]
+        ]
+    },
+    {
+        "id": "f5fcf34dbc545a9e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Remove notificacao",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet tamanhoAntes = (tutor.notificacoes || []).length;\ntutor.notificacoes = (tutor.notificacoes || []).filter(n => n.id != msg.notifId);\n\nif (tutor.notificacoes.length === tamanhoAntes) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Notificação não encontrada\" };\n    return [null, msg];\n}\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1700,
+        "wires": [
+            [
+                "0e224bbda2963ab0"
+            ],
+            [
+                "a309fd94c6e68983"
+            ]
+        ]
+    },
+    {
+        "id": "0e224bbda2963ab0",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 1640,
+        "wires": [
+            [
+                "74a276df9fb87d32"
+            ]
+        ]
+    },
+    {
+        "id": "a309fd94c6e68983",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "74a276df9fb87d32",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Notificação removida\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 1640,
+        "wires": [
+            [
+                "a309fd94c6e68983"
+            ]
+        ]
+    },
+    {
+        "id": "8604ac18fb886cf6",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET tutores/:tutor_id/notificacoes",
+        "url": "/tutores/:tutor_id/notificacoes",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 1200,
+        "wires": [
+            [
+                "016984e39a830d40"
+            ]
+        ]
+    },
+    {
+        "id": "016984e39a830d40",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id tutor",
+        "func": "msg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1200,
+        "wires": [
+            [
+                "7be5db31866fafcc"
+            ]
+        ]
+    },
+    {
+        "id": "7be5db31866fafcc",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 520,
+        "y": 1200,
+        "wires": [
+            [
+                "3cad6bb136c7baf5"
+            ]
+        ]
+    },
+    {
+        "id": "3cad6bb136c7baf5",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Extrai notificacoes",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nmsg.statusCode = 200;\nmsg.payload = tutor.notificacoes || [];\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1200,
+        "wires": [
+            [
+                "7858c3d0632ecb98"
+            ],
+            [
+                "7858c3d0632ecb98"
+            ]
+        ]
+    },
+    {
+        "id": "7858c3d0632ecb98",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "ae871a5bef83910f",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET tutores/:tutor_id/pets",
+        "url": "/tutores/:tutor_id/pets",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 1240,
+        "wires": [
+            [
+                "f0cf7e75273faf72"
+            ]
+        ]
+    },
+    {
+        "id": "f0cf7e75273faf72",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id tutor",
+        "func": "msg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1240,
+        "wires": [
+            [
+                "85c4c95f2bb95675"
+            ]
+        ]
+    },
+    {
+        "id": "85c4c95f2bb95675",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 520,
+        "y": 1240,
+        "wires": [
+            [
+                "a7c304bcc764cf68"
+            ]
+        ]
+    },
+    {
+        "id": "a7c304bcc764cf68",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Extrai pets",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nmsg.statusCode = 200;\nmsg.payload = tutor.pets || [];\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1240,
+        "wires": [
+            [
+                "efa488ce21923540"
+            ],
+            [
+                "efa488ce21923540"
+            ]
+        ]
+    },
+    {
+        "id": "efa488ce21923540",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "7dc45454ce10e381",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /agendamentos",
+        "url": "/agendamentos",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 1800,
+        "wires": [
+            [
+                "b11450391224e14d"
+            ]
+        ]
+    },
+    {
+        "id": "b11450391224e14d",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Montar documento",
+        "func": "let body = msg.payload;\nbody._id = body._id || (\"agendamento_\" + Date.now());\nbody.status_servico = body.status_servico || \"pendente\";\nmsg.payload = body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1860,
+        "wires": [
+            [
+                "e9c8571942e46d34"
+            ]
+        ]
+    },
+    {
+        "id": "e9c8571942e46d34",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 500,
+        "y": 1800,
+        "wires": [
+            [
+                "6959906b7943073e"
+            ]
+        ]
+    },
+    {
+        "id": "6959906b7943073e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Agendamento criado\", resultado: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 1840,
+        "wires": [
+            [
+                "00b4068fccde39a2"
+            ]
+        ]
+    },
+    {
+        "id": "00b4068fccde39a2",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 1820,
+        "wires": []
+    },
+    {
+        "id": "9bc8e91c2b0ae66a",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /agendamentos",
+        "url": "/agendamentos",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 1980,
+        "wires": [
+            [
+                "6a2a787f605174ff"
+            ]
+        ]
+    },
+    {
+        "id": "6a2a787f605174ff",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar query",
+        "func": "msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1960,
+        "wires": [
+            [
+                "b459f66660690819"
+            ]
+        ]
+    },
+    {
+        "id": "b459f66660690819",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 520,
+        "y": 2020,
+        "wires": [
+            [
+                "d5ebc977f6598767"
+            ]
+        ]
+    },
+    {
+        "id": "d5ebc977f6598767",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1960,
+        "wires": [
+            [
+                "558a9b1546e29176"
+            ]
+        ]
+    },
+    {
+        "id": "558a9b1546e29176",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "42cbf0910a3cb86b",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /agendamentos/:id",
+        "url": "/agendamentos/:id",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 2100,
+        "wires": [
+            [
+                "8852967603d55092"
+            ]
+        ]
+    },
+    {
+        "id": "8852967603d55092",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 2080,
+        "wires": [
+            [
+                "f7f66fc8fbb77cbf"
+            ]
+        ]
+    },
+    {
+        "id": "f7f66fc8fbb77cbf",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 500,
+        "y": 2120,
+        "wires": [
+            [
+                "59b04fcde423a70e"
+            ]
+        ]
+    },
+    {
+        "id": "59b04fcde423a70e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if (!msg.payload) {\n    msg.payload = { erro: \"Agendamento não encontrado\" };\n    msg.statusCode = 404;\n} else {\n    msg.statusCode = 200;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 2120,
+        "wires": [
+            [
+                "185c24c1f7770608"
+            ]
+        ]
+    },
+    {
+        "id": "185c24c1f7770608",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 810,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "c4279cba0123616f",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /agendamentos/:id",
+        "url": "/agendamentos/:id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 2220,
+        "wires": [
+            [
+                "df61512db95f9010"
+            ]
+        ]
+    },
+    {
+        "id": "df61512db95f9010",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.dadosNovos = msg.payload;\nmsg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 2200,
+        "wires": [
+            [
+                "2f02b495bc3bda3b"
+            ]
+        ]
+    },
+    {
+        "id": "2f02b495bc3bda3b",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 520,
+        "y": 2200,
+        "wires": [
+            [
+                "bf88b62fa6712478"
+            ]
+        ]
+    },
+    {
+        "id": "bf88b62fa6712478",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Mesclar dados",
+        "func": "let atual = msg.payload;\n\nif (!atual) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Agendamento não encontrado\" };\n    return [null, msg];\n}\n\nObject.assign(atual, msg.dadosNovos);\nmsg.payload = atual;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 2200,
+        "wires": [
+            [
+                "38b24dad1a706693"
+            ],
+            [
+                "cb685d95a7fbf72d"
+            ]
+        ]
+    },
+    {
+        "id": "38b24dad1a706693",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 940,
+        "y": 2140,
+        "wires": [
+            [
+                "8cfb5129bbf6d766"
+            ]
+        ]
+    },
+    {
+        "id": "8cfb5129bbf6d766",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Agendamento atualizado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 2140,
+        "wires": [
+            [
+                "cb685d95a7fbf72d"
+            ]
+        ]
+    },
+    {
+        "id": "cb685d95a7fbf72d",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1230,
+        "y": 2220,
+        "wires": []
+    },
+    {
+        "id": "763d4535d8432860",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /agendamentos/:id",
+        "url": "/agendamentos/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 2320,
+        "wires": [
+            [
+                "4b2a19c3c53c8691"
+            ]
+        ]
+    },
+    {
+        "id": "4b2a19c3c53c8691",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2300,
+        "wires": [
+            [
+                "2e5321067d58a3b1"
+            ]
+        ]
+    },
+    {
+        "id": "2e5321067d58a3b1",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 540,
+        "y": 2320,
+        "wires": [
+            [
+                "75d75eaa718c2bc4"
+            ]
+        ]
+    },
+    {
+        "id": "75d75eaa718c2bc4",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar delete",
+        "func": "if (!msg.payload) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Agendamento não encontrado\" };\n    return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 2320,
+        "wires": [
+            [
+                "299e5a0612691a29"
+            ],
+            [
+                "bc62a871a7d1714e"
+            ]
+        ]
+    },
+    {
+        "id": "299e5a0612691a29",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "agendamentos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "delete",
+        "x": 940,
+        "y": 2280,
+        "wires": [
+            [
+                "8bd6dfc260163d8a"
+            ]
+        ]
+    },
+    {
+        "id": "8bd6dfc260163d8a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Agendamento removido\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 2300,
+        "wires": [
+            [
+                "bc62a871a7d1714e"
+            ]
+        ]
+    },
+    {
+        "id": "bc62a871a7d1714e",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 2400,
+        "wires": []
+    },
+    {
+        "id": "89fb2a8eb2f908e1",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /tutores/:tutor_id/pets/:pet_id/vacinas",
+        "url": "/tutores/:tutor_id/pets/:pet_id/vacinas",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 2400,
+        "wires": [
+            [
+                "252fc1e67d96843d"
+            ]
+        ]
+    },
+    {
+        "id": "252fc1e67d96843d",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.novaVacina = msg.payload;\nmsg.petId = msg.req.params.pet_id;\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 2380,
+        "wires": [
+            [
+                "7a4ce0d85482e160"
+            ]
+        ]
+    },
+    {
+        "id": "7a4ce0d85482e160",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 480,
+        "y": 2460,
+        "wires": [
+            [
+                "5e60aadbfc9d239a"
+            ]
+        ]
+    },
+    {
+        "id": "5e60aadbfc9d239a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Adiciona vacina",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet petId = msg.petId;\nlet pet = (tutor.pets || []).find(p => p.id == petId);\n\nif (!pet) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Pet não encontrado\" };\n    return [null, msg];\n}\n\npet.vacinas = pet.vacinas || [];\npet.vacinas.push(msg.novaVacina);\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 2420,
+        "wires": [
+            [
+                "e87ab958a89fd420"
+            ],
+            [
+                "d78383ae0acb4525"
+            ]
+        ]
+    },
+    {
+        "id": "e87ab958a89fd420",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 820,
+        "y": 2440,
+        "wires": [
+            [
+                "a3f8efd0ec3389b2"
+            ]
+        ]
+    },
+    {
+        "id": "a3f8efd0ec3389b2",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Vacina adicionada\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 2460,
+        "wires": [
+            [
+                "d78383ae0acb4525"
+            ]
+        ]
+    },
+    {
+        "id": "d78383ae0acb4525",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1170,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "2527fcfb5decb240",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /tutores/:tutor_id/pets/:pet_id/vacinas/:vacina_index",
+        "url": "/tutores/:tutor_id/pets/:pet_id/vacinas/:vacina_index",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 2640,
+        "wires": [
+            [
+                "6888aea8ab367996"
+            ]
+        ]
+    },
+    {
+        "id": "6888aea8ab367996",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega ids",
+        "func": "msg.petId = msg.req.params.pet_id;\nmsg.vacinaIndex = parseInt(msg.req.params.vacina_index);\nmsg.payload = msg.req.params.tutor_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 2580,
+        "wires": [
+            [
+                "f6760f4362676fd4"
+            ]
+        ]
+    },
+    {
+        "id": "f6760f4362676fd4",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 480,
+        "y": 2700,
+        "wires": [
+            [
+                "8d8d7b0a4444f45e"
+            ]
+        ]
+    },
+    {
+        "id": "8d8d7b0a4444f45e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Remove vacina",
+        "func": "let tutor = msg.payload;\n\nif (!tutor) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Tutor não encontrado\" };\n    return [null, msg];\n}\n\nlet pet = (tutor.pets || []).find(p => p.id == msg.petId);\n\nif (!pet) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Pet não encontrado\" };\n    return [null, msg];\n}\n\nlet idx = msg.vacinaIndex;\n\nif (!pet.vacinas || idx < 0 || idx >= pet.vacinas.length) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Vacina não encontrada\" };\n    return [null, msg];\n}\n\npet.vacinas.splice(idx, 1);\n\nmsg.payload = tutor;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 2660,
+        "wires": [
+            [
+                "d2771aac5778d491"
+            ],
+            [
+                "fc13bb95374f6ecb"
+            ]
+        ]
+    },
+    {
+        "id": "d2771aac5778d491",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "tutores",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 820,
+        "y": 2680,
+        "wires": [
+            [
+                "582b96b4d14f572e"
+            ]
+        ]
+    },
+    {
+        "id": "582b96b4d14f572e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Vacina adicionada\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 2700,
+        "wires": [
+            [
+                "fc13bb95374f6ecb"
+            ]
+        ]
+    },
+    {
+        "id": "fc13bb95374f6ecb",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1170,
+        "y": 2780,
+        "wires": []
+    },
+    {
+        "id": "6d0f54917e9fd1f4",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET petshops/:petshop_id/servicos",
+        "url": "/petshops/:petshop_id/servicos",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 2860,
+        "wires": [
+            [
+                "2b54129308301ceb"
+            ]
+        ]
+    },
+    {
+        "id": "2b54129308301ceb",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 2860,
+        "wires": [
+            [
+                "41524634190edd70"
+            ]
+        ]
+    },
+    {
+        "id": "41524634190edd70",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 540,
+        "y": 2860,
+        "wires": [
+            [
+                "d0ffb5c26725a963"
+            ]
+        ]
+    },
+    {
+        "id": "d0ffb5c26725a963",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Extrai pets",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nmsg.statusCode = 200;\nmsg.payload = petshop.servicos || [];\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2860,
+        "wires": [
+            [
+                "0008b2fa537819d2"
+            ],
+            [
+                "0008b2fa537819d2"
+            ]
+        ]
+    },
+    {
+        "id": "0008b2fa537819d2",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 2860,
+        "wires": []
+    },
+    {
+        "id": "aecfa83e78721247",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /petshops/:petshop_id/servicos",
+        "url": "/petshops/:petshop_id/servicos",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 3000,
+        "wires": [
+            [
+                "fa821454db1bdc30"
+            ]
+        ]
+    },
+    {
+        "id": "fa821454db1bdc30",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.novoServico = msg.payload;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 2960,
+        "wires": [
+            [
+                "32e16fb2db1a920a"
+            ]
+        ]
+    },
+    {
+        "id": "32e16fb2db1a920a",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 400,
+        "y": 3060,
+        "wires": [
+            [
+                "0cb3aa6620ef0c47"
+            ]
+        ]
+    },
+    {
+        "id": "0cb3aa6620ef0c47",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Adiciona Pet",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet novo = msg.novoServico;\nnovo.id = novo.id || Date.now();\n\npetshop.servicos = petshop.servicos || [];\npetshop.servicos.push(novo);\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 3060,
+        "wires": [
+            [
+                "1d5def3457651adb"
+            ],
+            [
+                "a17acffd371e30be"
+            ]
+        ]
+    },
+    {
+        "id": "a17acffd371e30be",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 3060,
+        "wires": []
+    },
+    {
+        "id": "1d5def3457651adb",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 740,
+        "y": 3000,
+        "wires": [
+            [
+                "8e3a0e53124926fc"
+            ]
+        ]
+    },
+    {
+        "id": "8e3a0e53124926fc",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Serviço adicionado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 3020,
+        "wires": [
+            [
+                "a17acffd371e30be"
+            ]
+        ]
+    },
+    {
+        "id": "32092b79267bc429",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /petshops/:petshop_id/servicos/:servico_id",
+        "url": "petshops/:petshop_id/servicos/:servico_id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 3120,
+        "wires": [
+            [
+                "47fd07b88372775d"
+            ]
+        ]
+    },
+    {
+        "id": "47fd07b88372775d",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.dadosNovos = msg.payload;\nmsg.servicoId = msg.req.params.servico_id;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 3180,
+        "wires": [
+            [
+                "7b65bbe6f7028c4f"
+            ]
+        ]
+    },
+    {
+        "id": "7b65bbe6f7028c4f",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 500,
+        "y": 3140,
+        "wires": [
+            [
+                "169370ea7deba9ae"
+            ]
+        ]
+    },
+    {
+        "id": "169370ea7deba9ae",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Atualiza servico",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet idx = (petshop.servicos || []).findIndex(s => s.id == msg.servicoId);\n\nif (idx === -1) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Serviço não encontrado\" };\n    return [null, msg];\n}\n\nObject.assign(petshop.servicos[idx], msg.dadosNovos);\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 3180,
+        "wires": [
+            [
+                "ebfa19a457820fe3"
+            ],
+            [
+                "3eed2191903cb1ec"
+            ]
+        ]
+    },
+    {
+        "id": "ebfa19a457820fe3",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 3160,
+        "wires": [
+            [
+                "229e9a8712159b25"
+            ]
+        ]
+    },
+    {
+        "id": "3eed2191903cb1ec",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 3220,
+        "wires": []
+    },
+    {
+        "id": "229e9a8712159b25",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Serviço atualizado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 3160,
+        "wires": [
+            [
+                "3eed2191903cb1ec"
+            ]
+        ]
+    },
+    {
+        "id": "0a02d9685552d568",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE petshops/:petshop_id/servicos/:servico_id",
+        "url": "petshops/:petshop_id/servicos/:servico_id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 3280,
+        "wires": [
+            [
+                "1012bb3dfd1ed432"
+            ]
+        ]
+    },
+    {
+        "id": "1012bb3dfd1ed432",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.servicoId = msg.req.params.servico_id;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 3360,
+        "wires": [
+            [
+                "c4d732e60d1bd786"
+            ]
+        ]
+    },
+    {
+        "id": "c4d732e60d1bd786",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 480,
+        "y": 3340,
+        "wires": [
+            [
+                "1bf7469d886ff2db"
+            ]
+        ]
+    },
+    {
+        "id": "1bf7469d886ff2db",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Remove servico",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet tamanhoAntes = (petshop.servicos || []).length;\npetshop.servicos = (petshop.servicos || []).filter(s => s.id != msg.servicoId);\n\nif (petshop.servicos.length === tamanhoAntes) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Serviço não encontrado\" };\n    return [null, msg];\n}\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 3340,
+        "wires": [
+            [
+                "6a8408d892caaeca"
+            ],
+            [
+                "994f66ccb64220ec"
+            ]
+        ]
+    },
+    {
+        "id": "6a8408d892caaeca",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 3320,
+        "wires": [
+            [
+                "9e7a8dfe5eca52b6"
+            ]
+        ]
+    },
+    {
+        "id": "994f66ccb64220ec",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 3380,
+        "wires": []
+    },
+    {
+        "id": "9e7a8dfe5eca52b6",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Serviço removido\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 3320,
+        "wires": [
+            [
+                "994f66ccb64220ec"
+            ]
+        ]
+    },
+    {
+        "id": "4515bdc5e8a0b8ac",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET petshops/:petshop_id/itens",
+        "url": "/petshops/:petshop_id/itens",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 3460,
+        "wires": [
+            [
+                "41ee588aebe8d018"
+            ]
+        ]
+    },
+    {
+        "id": "41ee588aebe8d018",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 3460,
+        "wires": [
+            [
+                "fef028657293fa90"
+            ]
+        ]
+    },
+    {
+        "id": "fef028657293fa90",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 540,
+        "y": 3460,
+        "wires": [
+            [
+                "2a6ddae3532ea4c1"
+            ]
+        ]
+    },
+    {
+        "id": "2a6ddae3532ea4c1",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Extrai itens",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nmsg.statusCode = 200;\nmsg.payload = petshop.itens_estoque || [];\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 3460,
+        "wires": [
+            [
+                "f2c6913adcd58ace"
+            ],
+            [
+                "f2c6913adcd58ace"
+            ]
+        ]
+    },
+    {
+        "id": "f2c6913adcd58ace",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 3460,
+        "wires": []
+    },
+    {
+        "id": "91b3611d8c728019",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /petshops/:petshop_id/itens",
+        "url": "/petshops/:petshop_id/itens",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 3600,
+        "wires": [
+            [
+                "9d7e02b441e576a0"
+            ]
+        ]
+    },
+    {
+        "id": "9d7e02b441e576a0",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.novoItem = msg.payload;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 3560,
+        "wires": [
+            [
+                "eb1acd3ae7aa1e54"
+            ]
+        ]
+    },
+    {
+        "id": "eb1acd3ae7aa1e54",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 400,
+        "y": 3660,
+        "wires": [
+            [
+                "11599905acc82b90"
+            ]
+        ]
+    },
+    {
+        "id": "11599905acc82b90",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Adiciona item",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet novo = msg.novoItem;\nnovo.id = novo.id || Date.now();\n\npetshop.itens_estoque = petshop.itens_estoque || [];\npetshop.itens_estoque.push(novo);\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 3660,
+        "wires": [
+            [
+                "8e28e1996bdf35eb"
+            ],
+            [
+                "0f626c6549684ee1"
+            ]
+        ]
+    },
+    {
+        "id": "0f626c6549684ee1",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 3660,
+        "wires": []
+    },
+    {
+        "id": "8e28e1996bdf35eb",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 740,
+        "y": 3600,
+        "wires": [
+            [
+                "726fe5a3e4f314c6"
+            ]
+        ]
+    },
+    {
+        "id": "726fe5a3e4f314c6",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Item adicionado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 3620,
+        "wires": [
+            [
+                "0f626c6549684ee1"
+            ]
+        ]
+    },
+    {
+        "id": "d9802ac38d7e9db2",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /petshops/:petshop_id/itens/:item_id",
+        "url": "petshops/:petshop_id/itens/:item_id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 3720,
+        "wires": [
+            [
+                "0bac10d06de4817d"
+            ]
+        ]
+    },
+    {
+        "id": "0bac10d06de4817d",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.dadosNovos = msg.payload;\nmsg.itemId = msg.req.params.item_id;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 3780,
+        "wires": [
+            [
+                "1268ce4f92698018"
+            ]
+        ]
+    },
+    {
+        "id": "1268ce4f92698018",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 500,
+        "y": 3740,
+        "wires": [
+            [
+                "c413027c1ca35182"
+            ]
+        ]
+    },
+    {
+        "id": "c413027c1ca35182",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Atualiza servico",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet idx = (petshop.itens_estoque || []).findIndex(i => i.id == msg.itemId);\n\nif (idx === -1) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Item não encontrado\" };\n    return [null, msg];\n}\n\nObject.assign(petshop.itens_estoque[idx], msg.dadosNovos);\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 3780,
+        "wires": [
+            [
+                "d759bc3a2663bfbc"
+            ],
+            [
+                "cbd9578907263186"
+            ]
+        ]
+    },
+    {
+        "id": "d759bc3a2663bfbc",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 3760,
+        "wires": [
+            [
+                "805018c4e74f2ccb"
+            ]
+        ]
+    },
+    {
+        "id": "cbd9578907263186",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 3820,
+        "wires": []
+    },
+    {
+        "id": "805018c4e74f2ccb",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Item atualizado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 3760,
+        "wires": [
+            [
+                "cbd9578907263186"
+            ]
+        ]
+    },
+    {
+        "id": "67cc513a7870f0ff",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE petshops/:petshop_id/itens/:item_id",
+        "url": "petshops/:petshop_id/itens/:item_id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 3880,
+        "wires": [
+            [
+                "f758bf6daa54e6a6"
+            ]
+        ]
+    },
+    {
+        "id": "f758bf6daa54e6a6",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id petshop",
+        "func": "msg.itemId = msg.req.params.item_id;\nmsg.payload = msg.req.params.petshop_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 3960,
+        "wires": [
+            [
+                "629bcc62517e09d7"
+            ]
+        ]
+    },
+    {
+        "id": "629bcc62517e09d7",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 480,
+        "y": 3940,
+        "wires": [
+            [
+                "1a2213fb03ddba76"
+            ]
+        ]
+    },
+    {
+        "id": "1a2213fb03ddba76",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Remove item",
+        "func": "let petshop = msg.payload;\n\nif (!petshop) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Petshop não encontrado\" };\n    return [null, msg];\n}\n\nlet tamanhoAntes = (petshop.itens_estoque || []).length;\npetshop.itens_estoque = (petshop.itens_estoque || []).filter(i => i.id != msg.itemId);\n\nif (petshop.itens_estoque.length === tamanhoAntes) {\n    msg.statusCode = 404;\n    msg.payload = { erro: \"Item não encontrado\" };\n    return [null, msg];\n}\n\nmsg.payload = petshop;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 3940,
+        "wires": [
+            [
+                "612163b2a4431e8d"
+            ],
+            [
+                "2ae12b1b82f393fa"
+            ]
+        ]
+    },
+    {
+        "id": "612163b2a4431e8d",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "petshops",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 840,
+        "y": 3920,
+        "wires": [
+            [
+                "5b6fc20fbc8b9204"
+            ]
+        ]
+    },
+    {
+        "id": "2ae12b1b82f393fa",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1210,
+        "y": 3980,
+        "wires": []
+    },
+    {
+        "id": "5b6fc20fbc8b9204",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Item removido\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 3920,
+        "wires": [
+            [
+                "2ae12b1b82f393fa"
+            ]
+        ]
+    },
+    {
+        "id": "b2e12cb5f72a7c20",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /pedidos",
+        "url": "/pedidos",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 4040,
+        "wires": [
+            [
+                "f251f4196ed24c5a"
+            ]
+        ]
+    },
+    {
+        "id": "f251f4196ed24c5a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar query",
+        "func": "msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 4040,
+        "wires": [
+            [
+                "30df5405f9953218"
+            ]
+        ]
+    },
+    {
+        "id": "69034ebb0c32f6aa",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 4040,
+        "wires": [
+            [
+                "2413f2c653f469d2"
+            ]
+        ]
+    },
+    {
+        "id": "2413f2c653f469d2",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 880,
+        "y": 4040,
+        "wires": []
+    },
+    {
+        "id": "4762e9bdeea6d4b3",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "GET /pedidos/:id",
+        "url": "/pedidos/:id",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 4100,
+        "wires": [
+            [
+                "9fbcb954e9ff3538"
+            ]
+        ]
+    },
+    {
+        "id": "9fbcb954e9ff3538",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 4100,
+        "wires": [
+            [
+                "397dafe7730b4a63"
+            ]
+        ]
+    },
+    {
+        "id": "6a46254d219d2fe8",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "if (!msg.payload) {\n  msg.payload = { erro: \"Pedido não encontrado\" };\n  msg.statusCode = 404;\n} else {\n  msg.statusCode = 200;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 4100,
+        "wires": [
+            [
+                "4991f489428ed477"
+            ]
+        ]
+    },
+    {
+        "id": "4991f489428ed477",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 840,
+        "y": 4100,
+        "wires": []
+    },
+    {
+        "id": "9788c279f29ec47d",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "POST /pedidos",
+        "url": "/pedidos",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 4160,
+        "wires": [
+            [
+                "0911a969859cc6ce"
+            ]
+        ]
+    },
+    {
+        "id": "0911a969859cc6ce",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Montar documento",
+        "func": "let body = msg.payload;\nbody._id = body._id || (\"pedido_\" + Date.now());\nbody.status_pedido = body.status_pedido || \"pendente\";\nbody.data_pedido = body.data_pedido || new Date().toISOString();\nbody.itens_pedido = body.itens_pedido || [];\nmsg.payload = body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 4160,
+        "wires": [
+            [
+                "123d24413d20a168"
+            ]
+        ]
+    },
+    {
+        "id": "afdfa4a1dbf065ad",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 201;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pedido criado\", resultado: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 4160,
+        "wires": [
+            [
+                "e097a2451be7b4a4"
+            ]
+        ]
+    },
+    {
+        "id": "e097a2451be7b4a4",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 4160,
+        "wires": []
+    },
+    {
+        "id": "23ca8ac2b14849d0",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "PUT /pedidos/:id",
+        "url": "/pedidos/:id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 4220,
+        "wires": [
+            [
+                "afb1b86bb3a4a493"
+            ]
+        ]
+    },
+    {
+        "id": "afb1b86bb3a4a493",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id atual",
+        "func": "msg.dadosNovos = msg.payload;\nmsg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 4220,
+        "wires": [
+            [
+                "99115852e6a09103"
+            ]
+        ]
+    },
+    {
+        "id": "57d4db35f607b5e5",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Mesclar dados",
+        "func": "let atual = msg.payload;\n\nif (!atual) {\n  msg.statusCode = 404;\n  msg.payload = { erro: \"Pedido não encontrado\" };\n  return [null, msg];\n}\n\nObject.assign(atual, msg.dadosNovos);\nmsg.payload = atual;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 4220,
+        "wires": [
+            [
+                "11ebbb3c8232baa6"
+            ],
+            [
+                "5100315ca75a024a"
+            ]
+        ]
+    },
+    {
+        "id": "41ea07ac544695e7",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pedido atualizado\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 4180,
+        "wires": [
+            [
+                "5100315ca75a024a"
+            ]
+        ]
+    },
+    {
+        "id": "5100315ca75a024a",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 4220,
+        "wires": []
+    },
+    {
+        "id": "ea4ad6e6368041f9",
+        "type": "http in",
+        "z": "tab_petpulse",
+        "name": "DELETE /pedidos/:id",
+        "url": "/pedidos/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 4280,
+        "wires": [
+            [
+                "1b07bd69ab9e1c0e"
+            ]
+        ]
+    },
+    {
+        "id": "1b07bd69ab9e1c0e",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Pega id",
+        "func": "msg.payload = msg.req.params.id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 4280,
+        "wires": [
+            [
+                "d14eb4cf073ecfef"
+            ]
+        ]
+    },
+    {
+        "id": "34e9abab0f036d0a",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Preparar delete",
+        "func": "if (!msg.payload) {\n  msg.statusCode = 404;\n  msg.payload = { erro: \"Pedido não encontrado\" };\n  return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 4280,
+        "wires": [
+            [
+                "b8c94830ada04080"
+            ],
+            [
+                "4ef5a1960185a144"
+            ]
+        ]
+    },
+    {
+        "id": "367e4cb028264b66",
+        "type": "function",
+        "z": "tab_petpulse",
+        "name": "Formatar resposta",
+        "func": "msg.statusCode = 200;\nmsg.payload = { status: \"Sucesso\", mensagem: \"Pedido removido\" };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 4260,
+        "wires": [
+            [
+                "4ef5a1960185a144"
+            ]
+        ]
+    },
+    {
+        "id": "4ef5a1960185a144",
+        "type": "http response",
+        "z": "tab_petpulse",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1280,
+        "y": 4280,
+        "wires": []
+    },
+    {
+        "id": "123d24413d20a168",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 470,
+        "y": 4160,
+        "wires": [
+            [
+                "afdfa4a1dbf065ad"
+            ]
+        ]
+    },
+    {
+        "id": "b8c94830ada04080",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "delete",
+        "x": 930,
+        "y": 4260,
+        "wires": [
+            [
+                "367e4cb028264b66"
+            ]
+        ]
+    },
+    {
+        "id": "30df5405f9953218",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 450,
+        "y": 4040,
+        "wires": [
+            [
+                "69034ebb0c32f6aa"
+            ]
+        ]
+    },
+    {
+        "id": "99115852e6a09103",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 470,
+        "y": 4220,
+        "wires": [
+            [
+                "57d4db35f607b5e5"
+            ]
+        ]
+    },
+    {
+        "id": "11ebbb3c8232baa6",
+        "type": "cloudantplus out",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 880,
+        "y": 4200,
+        "wires": [
+            [
+                "41ea07ac544695e7"
+            ]
+        ]
+    },
+    {
+        "id": "397dafe7730b4a63",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 430,
+        "y": 4100,
+        "wires": [
+            [
+                "6a46254d219d2fe8"
+            ]
+        ]
+    },
+    {
+        "id": "d14eb4cf073ecfef",
+        "type": "cloudantplus in",
+        "z": "tab_petpulse",
+        "name": "",
+        "cloudant": "a1ed134c097d6da8",
+        "database": "pedidos",
+        "service": "_ext_",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 450,
+        "y": 4280,
+        "wires": [
+            [
+                "34e9abab0f036d0a"
+            ]
+        ]
+    },
+    {
+        "id": "a1ed134c097d6da8",
+        "type": "cloudantplus",
+        "host": "https://f1c0dcf9-5075-4061-a1f8-2f4ca596058a-bluemix.cloudantnosqldb.appdomain.cloud",
+        "name": "JoaoMarcelo",
+        "useapikey": true
+    }
+]
