@@ -15,7 +15,7 @@ class PetshopViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var petshops: [Petshop] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/petshops"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/petshops" }
 
     // MARK: - POST (Criar)
     func postPetshop(petshop: Petshop) async {
@@ -47,7 +47,7 @@ class PetshopViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedResponse = try decoder.decode(Petshop.self, from: data)
 
@@ -80,7 +80,7 @@ class PetshopViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedPetshops = try decoder.decode([Petshop].self, from: data)
 
@@ -100,7 +100,8 @@ class PetshopViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(petshop.id)") else {
+        guard let id = petshop.id,
+              let url = URL(string: "\(baseURLString)/\(id)") else {
             responseMessage = "URL inválida."
             return
         }

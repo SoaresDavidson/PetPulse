@@ -14,7 +14,7 @@ class ItemEstoqueViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var itensEstoque: [ItemEstoque] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/itensEstoque"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/itensEstoque" }
 
     // MARK: - POST (Criar)
     func postItemEstoque(item: ItemEstoque) async {

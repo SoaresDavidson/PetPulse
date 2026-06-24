@@ -2,17 +2,9 @@ import SwiftUI
 
 
 struct DiaView: View {
-
-
     var dia:Date
-
     var disponivel:Bool
-
-
-
     var body: some View {
-
-
         Text(
             dia.formatted(
                 .dateTime.day()
@@ -23,33 +15,13 @@ struct DiaView: View {
             height:40
         )
         .background(
-
-            disponivel ?
-
-            Color.blue.opacity(0.8)
-
-            :
-
-            Color.gray.opacity(0.15)
-
+            disponivel ? Color.blue.opacity(0.8): Color.gray.opacity(0.15)
         )
         .foregroundColor(
-
-            disponivel ?
-
-            .white
-
-            :
-
-            .gray
-
+            disponivel ? .white: .gray
         )
         .clipShape(
             Circle()
         )
-
-
     }
-
-
 }

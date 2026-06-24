@@ -53,7 +53,7 @@ struct TelaInicialView: View {
                     }
 
                     NavigationLink {
-                        // PetshopHomeView()
+                         PetshopHomeView()
                     } label: {
                         Text("Petshop")
                             .font(

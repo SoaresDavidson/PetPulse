@@ -13,13 +13,13 @@ import Foundation
 struct ItemEstoque: Identifiable, Codable {
     let id: Int?
     let rev: String?
-    var targetSpeciesId: Int
+    var targetSpecies: Species
     var nome: String
     var tipo: String
     enum CodingKeys: String, CodingKey {
             case id = "_id"
             case rev = "_rev"
-            case targetSpeciesId = "target_species_id"
+            case targetSpecies = "target_species"
             case nome
             case tipo
         }

@@ -1,11 +1,3 @@
-//
-//  ServiceViewModel.swift
-//  PetPulse
-//
-//  Created by Turma02-24 on 22/06/26.
-//
-
-
 import Foundation
 import Combine
 
@@ -15,14 +7,14 @@ class ServiceViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var services: [Service] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/services"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/petshops" }
 
     // MARK: - POST (Criar)
-    func postService(service: Service) async {
+    func postService(petshopId: String = "petshop_teste", service: Service) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(petshopId)/servicos") else {
             responseMessage = "URL inválida."
             return
         }
@@ -47,11 +39,11 @@ class ServiceViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedResponse = try decoder.decode(Service.self, from: data)
 
-                responseMessage = "Sucesso! Service criado com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! Service criado com ID: \(decodedResponse.id ?? 0)"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }
@@ -61,11 +53,11 @@ class ServiceViewModel: ObservableObject {
     }
 
     // MARK: - GET (Ler)
-    func getServices() async {
+    func getServices(petshopId: String = "petshop_teste") async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(petshopId)/servicos") else {
             responseMessage = "URL inválida."
             return
         }
@@ -80,7 +72,7 @@ class ServiceViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedServices = try decoder.decode([Service].self, from: data)
 
@@ -96,11 +88,12 @@ class ServiceViewModel: ObservableObject {
     }
 
     // MARK: - PUT (Atualizar Completo)
-    func putService(service: Service) async {
+    func putService(petshopId: String = "petshop_teste", service: Service) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(service.id)") else {
+        guard let id = service.id,
+              let url = URL(string: "\(baseURLString)/\(petshopId)/servicos/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -135,11 +128,11 @@ class ServiceViewModel: ObservableObject {
     }
 
     // MARK: - PATCH (Atualizar Parcialmente)
-    func patchService(id: String, updates: [String: Any]) async {
+    func patchService(petshopId: String = "petshop_teste", id: String, updates: [String: Any]) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(petshopId)/servicos/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -171,11 +164,11 @@ class ServiceViewModel: ObservableObject {
     }
 
     // MARK: - DELETE (Deletar)
-    func deleteService(id: String) async {
+    func deleteService(petshopId: String = "petshop_teste", id: String) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(petshopId)/servicos/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -190,8 +183,6 @@ class ServiceViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 self.responseMessage = "Sucesso! Service deletado."
-
-          //      self.services.removeAll { $0.id == id }
 
             } else {
                 self.responseMessage = "Erro no servidor ao deletar."

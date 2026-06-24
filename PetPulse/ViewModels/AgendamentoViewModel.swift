@@ -14,7 +14,15 @@ class AgendamentoViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var agendamentos: [Scheduling] = [] // Nova lista para armazenar os pets do GET
     
-    let baseURLString: String = "http://192.168.128.137:1880/agendamento"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/agendamentos" }
+    
+    private static let localISOFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return f
+    }()
     // MARK: - POST (Criar)
     func postAgendamento(agendamento: Scheduling) async {
         isLoading = true
@@ -26,7 +34,7 @@ class AgendamentoViewModel: ObservableObject {
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .formatted(Self.localISOFormatter)
         guard let encodedData = try? encoder.encode(agendamento) else {
             responseMessage = "Falha ao codificar os dados."
             return
@@ -76,7 +84,7 @@ class AgendamentoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
                 // Decodifica um array de Pets
                 let decodedPets = try decoder.decode([Scheduling].self, from: data)
                 self.agendamentos = decodedPets
@@ -96,13 +104,14 @@ class AgendamentoViewModel: ObservableObject {
         defer { isLoading = false }
         
         // Normalmente, o PUT exige o ID na URL
-        guard let url = URL(string: "\(baseURLString)/\(agendamento.id)") else {
+        guard let id = agendamento.id,
+              let url = URL(string: "\(baseURLString)/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .formatted(Self.localISOFormatter)
         guard let encodedData = try? encoder.encode(agendamento) else {
             responseMessage = "Falha ao codificar os dados."
             return

@@ -16,7 +16,7 @@ struct Scheduling: Identifiable, Codable {
     var petshopId: String
     var serviceId: Int
     var dataHoraAgendamento: Date
-    var statusServico: String
+    var statusServico: statusService
     enum CodingKeys: String, CodingKey {
             case id = "_id"
             case rev = "_rev"

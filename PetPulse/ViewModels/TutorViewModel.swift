@@ -7,7 +7,7 @@ class TutorViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var tutores: [Tutor] = []
     @Published var tutorLogado: Tutor?
-    let baseURLString: String = "http://192.168.128.137:1880/tutores"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/tutores" }
     
     // Formatter para datas no formato "yyyy-MM-dd"
     private static let ymdFormatter: DateFormatter = {
@@ -38,8 +38,7 @@ class TutorViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                // Datas vêm como "yyyy-MM-dd" em pets/vacinas
-                decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
+                decoder.dateDecodingStrategy = .customFlexible
                 let tutor = try decoder.decode(Tutor.self, from: data)
                 
                 self.tutorLogado = tutor
@@ -85,7 +84,7 @@ class TutorViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
                 let decodedResponse = try decoder.decode(Tutor.self, from: data)
-                self.responseMessage = "Sucesso! Tutor criado com ID: \(String(describing: decodedResponse.id))"
+                self.responseMessage = "Sucesso! Tutor criado com ID: \(decodedResponse.id ?? "")"
                 
             } else {
                 self.responseMessage = "Erro no servidor ao criar Tutor."
@@ -115,7 +114,7 @@ class TutorViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(Self.ymdFormatter)
+                decoder.dateDecodingStrategy = .customFlexible
                 let decodedTutores = try decoder.decode([Tutor].self, from: data)
                 self.tutores = decodedTutores
                 self.responseMessage = "Sucesso! \(decodedTutores.count) tutores carregados."
@@ -133,9 +132,9 @@ class TutorViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        // Se usar CouchDB, pode ser necessário enviar o rev na URL: "?rev=\(tutor.rev)"
-        guard let url = URL(string: "\(baseURLString)/\(String(describing: tutor.id))") else {
-            responseMessage = "URL inválida."
+        guard let tutorId = tutor.id,
+              let url = URL(string: "\(baseURLString)/\(tutorId)") else {
+            responseMessage = "URL inválida ou ID do tutor ausente."
             return
         }
         

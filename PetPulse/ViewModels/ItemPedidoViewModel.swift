@@ -12,7 +12,7 @@ class ItemPedidoViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var itensPedido: [ItemPedido] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/itensPedido"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/itensPedido" }
 
     // MARK: - POST
     func postItemPedido(itemPedido: ItemPedido) async {

@@ -8,7 +8,6 @@ struct ClienteHomeView: View {
     // Lista efetiva exibida: prioriza os pets do tutor, senão usa o fallback
     private var petsDoTutor: [Pet] {
         if let tutor = tutor {
-            // Ajuste "tutor.pets" para o nome correto no seu modelo Tutor
             return tutor.pets ?? []
         }
         return pets
@@ -23,7 +22,6 @@ struct ClienteHomeView: View {
                         ForEach(petsDoTutor) { pet in
                             PetCardView(pet: pet)
                         }
-                        // Caso não haja pets, exibe uma mensagem amigável
                         if petsDoTutor.isEmpty {
                             Text("Você ainda não cadastrou pets.")
                                 .foregroundColor(.gray)
@@ -32,7 +30,7 @@ struct ClienteHomeView: View {
                     }
                     .padding(.top)
                 }
-                .navigationTitle("Meus Pets")
+                .navigationTitle(tutor?.nome ?? "Meus Pets")
             }
             .tabItem {
                 Label("Home", systemImage:"pawprint.fill")
@@ -43,15 +41,19 @@ struct ClienteHomeView: View {
                     Label("Loja", systemImage:"cart.fill")
                 }
 
-            Text("Notificações")
+            NotificacoesView()
                 .tabItem {
                     Label("Notificações", systemImage:"bell.fill")
+                }
+
+            PerfilView()
+                .tabItem {
+                    Label("Perfil", systemImage:"person.fill")
                 }
         }
     }
 }
 
 #Preview {
-    // Exemplo de preview com tutor nulo e lista vazia (ajuste conforme necessário)
     ClienteHomeView()
 }

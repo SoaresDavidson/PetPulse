@@ -1,10 +1,3 @@
-//
-//  NotificacaoViewModel.swift
-//  PetPulse
-//
-//  Created by Turma02-24 on 22/06/26.
-//
-
 import Foundation
 import Combine
 
@@ -14,14 +7,14 @@ class NotificacaoViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var notificacoes: [Notificacao] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/notificacoes"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/tutores" }
 
     // MARK: - POST (Criar)
-    func postNotificacao(notificacao: Notificacao) async {
+    func postNotificacao(tutorId: String = "tutor_1782166739059", notificacao: Notificacao) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/notificacoes") else {
             responseMessage = "URL inválida."
             return
         }
@@ -46,11 +39,11 @@ class NotificacaoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedResponse = try decoder.decode(Notificacao.self, from: data)
 
-                responseMessage = "Sucesso! Notificação criada com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! Notificação criada com ID: \(decodedResponse.id ?? 0)"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }
@@ -60,11 +53,11 @@ class NotificacaoViewModel: ObservableObject {
     }
 
     // MARK: - GET (Ler)
-    func getNotificacoes() async {
+    func getNotificacoes(tutorId: String = "tutor_1782166739059") async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/notificacoes") else {
             responseMessage = "URL inválida."
             return
         }
@@ -79,7 +72,7 @@ class NotificacaoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedNotificacoes = try decoder.decode([Notificacao].self, from: data)
 
@@ -95,11 +88,12 @@ class NotificacaoViewModel: ObservableObject {
     }
 
     // MARK: - PUT (Atualizar Completo)
-    func putNotificacao(notificacao: Notificacao) async {
+    func putNotificacao(tutorId: String = "tutor_1782166739059", notificacao: Notificacao) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(notificacao.id)") else {
+        guard let id = notificacao.id,
+              let url = URL(string: "\(baseURLString)/\(tutorId)/notificacoes/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -134,11 +128,11 @@ class NotificacaoViewModel: ObservableObject {
     }
 
     // MARK: - PATCH (Atualizar Parcialmente)
-    func patchNotificacao(id: String, updates: [String: Any]) async {
+    func patchNotificacao(tutorId: String = "tutor_1782166739059", id: String, updates: [String: Any]) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/notificacoes/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -170,11 +164,11 @@ class NotificacaoViewModel: ObservableObject {
     }
 
     // MARK: - DELETE (Deletar)
-    func deleteNotificacao(id: String) async {
+    func deleteNotificacao(tutorId: String = "tutor_1782166739059", id: String) async {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/notificacoes/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -189,9 +183,6 @@ class NotificacaoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 self.responseMessage = "Sucesso! Notificação deletada."
-
-                // Atualiza a lista local imediatamente
-              //  self.notificacoes.removeAll { $0.id == id }
 
             } else {
                 self.responseMessage = "Erro no servidor ao deletar."

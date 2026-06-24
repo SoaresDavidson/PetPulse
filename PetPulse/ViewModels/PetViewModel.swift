@@ -7,19 +7,28 @@ class PetViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var pets: [Pet] = [] // Nova lista para armazenar os pets do GET
     
-    let baseURLString: String = "http://192.168.128.137:1880/pets"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/tutores" }
+    
+    private static let ymdFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }()
+    
     // MARK: - POST (Criar)
-    func postPet(pet: Pet) async {
+    func postPet(tutorId: String = "tutor_1782166739059", pet: Pet) async {
         isLoading = true
         defer { isLoading = false }
         
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/pets") else {
             responseMessage = "URL inválida."
             return
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .formatted(Self.ymdFormatter)
         guard let encodedData = try? encoder.encode(pet) else {
             responseMessage = "Falha ao codificar os dados."
             return
@@ -37,7 +46,7 @@ class PetViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
                 let decodedResponse = try decoder.decode(Pet.self, from: data)
                 self.responseMessage = "Sucesso! Pet criado com ID: \(decodedResponse.id ?? 0)"
                 
@@ -50,11 +59,11 @@ class PetViewModel: ObservableObject {
     }
     
     // MARK: - GET (Ler)
-    func getPets() async -> [Pet]? {
+    func getPets(tutorId: String = "tutor_1782166739059") async -> [Pet]? {
         isLoading = true
         defer { isLoading = false }
         
-        guard let url = URL(string: baseURLString) else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/pets") else {
             responseMessage = "URL inválida."
             return nil
         }
@@ -69,7 +78,7 @@ class PetViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
                 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
                 // Decodifica um array de Pets
                 let decodedPets = try decoder.decode([Pet].self, from: data)
                 self.pets = decodedPets
@@ -86,18 +95,18 @@ class PetViewModel: ObservableObject {
     }
     
     // MARK: - PUT (Substituir/Atualizar Completo)
-    func putPet(pet: Pet) async {
+    func putPet(tutorId: String = "tutor_1782166739059", pet: Pet) async {
         isLoading = true
         defer { isLoading = false }
         
         guard let id = pet.id,
-              let url = URL(string: "\(baseURLString)/\(id)") else {
+              let url = URL(string: "\(baseURLString)/\(tutorId)/pets/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
         
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .formatted(Self.ymdFormatter)
         guard let encodedData = try? encoder.encode(pet) else {
             responseMessage = "Falha ao codificar os dados."
             return
@@ -123,17 +132,15 @@ class PetViewModel: ObservableObject {
     }
     
     // MARK: - PATCH (Atualizar Parcialmente)
-    // Usamos um dicionário para enviar apenas os campos que mudaram
-    func patchPet(id: String, updates: [String: Any]) async {
+    func patchPet(tutorId: String = "tutor_1782166739059", id: String, updates: [String: Any]) async {
         isLoading = true
         defer { isLoading = false }
         
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/pets/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
         
-        // JSONSerialization é ótimo para dicionários dinâmicos (Any)
         guard let encodedData = try? JSONSerialization.data(withJSONObject: updates, options: []) else {
             responseMessage = "Falha ao codificar os dados do Patch."
             return
@@ -159,11 +166,11 @@ class PetViewModel: ObservableObject {
     }
     
     // MARK: - DELETE (Deletar)
-    func deletePet(id: String) async {
+    func deletePet(tutorId: String = "tutor_1782166739059", id: String) async {
         isLoading = true
         defer { isLoading = false }
         
-        guard let url = URL(string: "\(baseURLString)/\(id)") else {
+        guard let url = URL(string: "\(baseURLString)/\(tutorId)/pets/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
@@ -177,10 +184,6 @@ class PetViewModel: ObservableObject {
             if let httpResponse = response as? HTTPURLResponse,
                (200...299).contains(httpResponse.statusCode) {
                 self.responseMessage = "Sucesso! Pet deletado."
-                
-                // Opcional: Remover o pet da lista localmente para atualizar a UI na mesma hora
-                // self.pets.removeAll { $0.id == id }
-                
             } else {
                 self.responseMessage = "Erro no servidor ao deletar."
             }

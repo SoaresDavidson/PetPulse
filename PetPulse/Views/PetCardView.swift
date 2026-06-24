@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct PetCardView: View {
-
+    @EnvironmentObject var petshopViewModel: PetshopViewModel
+    @EnvironmentObject var agendamentoViewModel: AgendamentoViewModel
+    @EnvironmentObject var tutorViewModel: TutorViewModel
+    @State private var isShowingAgendamentoSheet = false
     var pet: Pet
-
     var body: some View {
-
         VStack(spacing: 0) {
-
             // STATUS NO CANTO SUPERIOR DIREITO
             HStack {
                 Spacer()
@@ -33,29 +33,23 @@ struct PetCardView: View {
             }
             .padding(.top, 14)
             .padding(.horizontal, 22)
-
             // FOTO + INFORMAÇÕES
             HStack(spacing: 16) {
 
                 if let imageString = pet.imagem,
-                   !imageString.isEmpty,
-                   let url = URL(string: imageString) {
-                    AsyncImage(url: url) { image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .frame(
-                        width: 90,
-                        height: 90
-                    )
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: 25
+                   !imageString.isEmpty {
+                    Image(imageString)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(
+                            width: 90,
+                            height: 90
                         )
-                    )
+                        .clipShape(
+                            RoundedRectangle(
+                                cornerRadius: 25
+                            )
+                        )
                 } else {
                     RoundedRectangle(
                         cornerRadius: 25
@@ -144,8 +138,8 @@ struct PetCardView: View {
             // BOTÕES
             HStack(spacing: 12) {
 
-                Button {
-                    // Ação de detalhes
+                NavigationLink {
+                    PetDetalhesView(pet: pet)
                 } label: {
                     Text("Detalhes")
                         .font(
@@ -168,7 +162,7 @@ struct PetCardView: View {
                 }
 
                 Button {
-                    // Ação de agendar
+                    isShowingAgendamentoSheet = true
                 } label: {
                     Text("Agendar")
                         .font(
@@ -210,5 +204,15 @@ struct PetCardView: View {
             radius: 10,
             y: 5
         )
+        .sheet(isPresented: $isShowingAgendamentoSheet) {
+            AgendamentoSheetView(pet: pet)
+                .environmentObject(petshopViewModel)
+                .environmentObject(agendamentoViewModel)
+                .environmentObject(tutorViewModel)
+        }
     }
 }
+
+//#Preview {
+//    PetCardView()
+//}

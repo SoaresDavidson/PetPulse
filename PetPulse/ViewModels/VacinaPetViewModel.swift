@@ -15,7 +15,7 @@ class VacinaPetViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var vacinasPet: [VacinaPet] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/vacinasPet"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/vacinasPet" }
 
     // MARK: - POST (Criar)
     func postVacinaPet(vacinaPet: VacinaPet) async {

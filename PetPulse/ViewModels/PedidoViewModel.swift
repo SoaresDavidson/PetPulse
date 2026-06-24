@@ -15,7 +15,7 @@ class PedidoViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var pedidos: [Pedido] = []
 
-    let baseURLString: String = "http://192.168.128.137:1880/pedidos"
+    var baseURLString: String { "\(APIConfig.shared.baseURL)/pedidos" }
 
     // MARK: - POST (Criar)
     func postPedido(pedido: Pedido) async {
@@ -47,7 +47,7 @@ class PedidoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedResponse = try decoder.decode(Pedido.self, from: data)
 
@@ -80,7 +80,7 @@ class PedidoViewModel: ObservableObject {
                (200...299).contains(httpResponse.statusCode) {
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .customFlexible
 
                 let decodedPedidos = try decoder.decode([Pedido].self, from: data)
 
@@ -100,7 +100,8 @@ class PedidoViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(pedido.id)") else {
+        guard let id = pedido.id,
+              let url = URL(string: "\(baseURLString)/\(id)") else {
             responseMessage = "URL inválida."
             return
         }
