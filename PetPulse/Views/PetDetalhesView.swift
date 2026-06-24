@@ -42,12 +42,7 @@ struct PetDetalhesView: View {
         
         var nomes: [String] = []
         for ag in agendamentosDoPet {
-            if let petshop = petshopViewModel.petshops.first(where: {
-                if let id = $0.id {
-                    return String(id) == ag.petshopId
-                }
-                return false
-            }),
+            if let petshop = petshopViewModel.petshops.first(where: { $0.id == ag.petshopId }),
             let service = petshop.servicos.first(where: { $0.id == ag.serviceId }) {
                 nomes.append(service.nomeServico)
             }
@@ -66,12 +61,7 @@ struct PetDetalhesView: View {
             
         guard let ag = ultimoAgendamento else { return nil }
         
-        if let petshop = petshopViewModel.petshops.first(where: {
-            if let id = $0.id {
-                return String(id) == ag.petshopId
-            }
-            return false
-        }),
+        if let petshop = petshopViewModel.petshops.first(where: { $0.id == ag.petshopId }),
         let service = petshop.servicos.first(where: { $0.id == ag.serviceId }) {
             return service.nomeServico
         }

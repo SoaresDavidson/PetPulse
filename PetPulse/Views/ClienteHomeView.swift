@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct ClienteHomeView: View {
-    var tutor: Tutor?
+    @EnvironmentObject var tutorViewModel: TutorViewModel
     // Se quiser permitir injeção direta de pets, mantenha este fallback
     var pets: [Pet] = []
 
     // Lista efetiva exibida: prioriza os pets do tutor, senão usa o fallback
     private var petsDoTutor: [Pet] {
-        if let tutor = tutor {
+        if let tutor = tutorViewModel.tutorLogado {
             return tutor.pets ?? []
         }
         return pets
@@ -30,7 +30,7 @@ struct ClienteHomeView: View {
                     }
                     .padding(.top)
                 }
-                .navigationTitle(tutor?.nome ?? "Meus Pets")
+                .navigationTitle(tutorViewModel.tutorLogado?.nome ?? "Meus Pets")
             }
             .tabItem {
                 Label("Home", systemImage:"pawprint.fill")
@@ -56,4 +56,5 @@ struct ClienteHomeView: View {
 
 #Preview {
     ClienteHomeView()
+        .environmentObject(TutorViewModel())
 }

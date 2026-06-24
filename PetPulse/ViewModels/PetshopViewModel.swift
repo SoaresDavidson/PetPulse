@@ -14,6 +14,7 @@ class PetshopViewModel: ObservableObject {
     @Published var responseMessage: String = ""
     @Published var isLoading: Bool = false
     @Published var petshops: [Petshop] = []
+    @Published var petshopLogado: Petshop? = nil
 
     var baseURLString: String { "\(APIConfig.shared.baseURL)/petshops" }
 
@@ -51,7 +52,7 @@ class PetshopViewModel: ObservableObject {
 
                 let decodedResponse = try decoder.decode(Petshop.self, from: data)
 
-                responseMessage = "Sucesso! Petshop criado com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! Petshop criado com ID: \(decodedResponse.id ?? "")"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }
@@ -192,8 +193,8 @@ class PetshopViewModel: ObservableObject {
 
                 self.responseMessage = "Sucesso! Petshop deletado."
 
-                // Atualiza a lista local imediatamente
-            //    self.petshops.removeAll { $0.id == id }
+//                 Atualiza a lista local imediatamente
+//                self.petshops.removeAll { $0.id == id }
 
             } else {
                 self.responseMessage = "Erro no servidor ao deletar."

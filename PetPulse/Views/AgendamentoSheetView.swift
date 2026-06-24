@@ -8,7 +8,7 @@ struct AgendamentoSheetView: View {
     
     var pet: Pet
     
-    @State private var selectedPetshopId: Int? = nil
+    @State private var selectedPetshopId: String? = nil
     @State private var selectedService: Service? = nil
     @State private var selectedDate: Date? = nil
     @State private var selectedTime: String? = nil
@@ -55,9 +55,9 @@ struct AgendamentoSheetView: View {
                             .padding()
                         } else {
                             Picker("Petshop", selection: $selectedPetshopId) {
-                                Text("Selecione um petshop").tag(nil as Int?)
+                                Text("Selecione um petshop").tag(nil as String?)
                                 ForEach(petshopViewModel.petshops) { shop in
-                                    Text(shop.nome).tag(shop.id as Int?)
+                                    Text(shop.nome).tag(shop.id)
                                 }
                             }
                             .pickerStyle(.menu)
@@ -200,8 +200,8 @@ struct AgendamentoSheetView: View {
             }
             .task {
                 await petshopViewModel.getPetshops()
-                if selectedPetshopId == nil && !petshopViewModel.petshops.isEmpty {
-                    selectedPetshopId = petshopViewModel.petshops.first?.id
+                if selectedPetshopId == nil, let firstShop = petshopViewModel.petshops.first {
+                    selectedPetshopId = firstShop.id
                 }
             }
             .alert("Agendamento Confirmado!", isPresented: $showSuccessAlert) {
@@ -222,7 +222,7 @@ struct AgendamentoSheetView: View {
     }
     
     private func confirmScheduling() async {
-        guard let petshopIdInt = selectedPetshopId,
+        guard let petshopIdStr = selectedPetshopId,
               let service = selectedService,
               let date = selectedDate,
               let timeStr = selectedTime,
@@ -265,7 +265,7 @@ struct AgendamentoSheetView: View {
             rev: nil,
             tutorId: tutorId,
             petId: petId,
-            petshopId: String(petshopIdInt),
+            petshopId: petshopIdStr,
             serviceId: service.id ?? 1,
             dataHoraAgendamento: finalDate,
             statusServico: .esperando

@@ -30,7 +30,7 @@ struct AgendarView: View {
 
 
                 Text(
-                    "Para \(pet.nome ?? "Pet")"
+                    "Para \(pet.nome)"
                 )
                 .font(
                     .title3

@@ -281,7 +281,7 @@ struct PetshopInicioView: View {
                 await AgendamentoViewModel.getAgendamentos()
                 await serviceViewModel.getServices()
             }
-            .onChange(of: viewModel.responseMessage) { newValue in
+            .onChange(of: viewModel.responseMessage) { _, newValue in
                 if newValue.contains("Sucesso! Pet criado") {
                     showPetCreatedAlert = true
                 }

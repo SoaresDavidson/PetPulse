@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Petshop
 struct Petshop: Identifiable, Codable {
-    let id: Int?
+    let id: String?
     let rev: String?
     var nome: String
     var servicos: [Service]

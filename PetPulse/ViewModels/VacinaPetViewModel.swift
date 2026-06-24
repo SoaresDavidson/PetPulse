@@ -51,7 +51,7 @@ class VacinaPetViewModel: ObservableObject {
 
                 let decodedResponse = try decoder.decode(VacinaPet.self, from: data)
 
-                responseMessage = "Sucesso! VacinaPet criada com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! VacinaPet criada com ID: \(decodedResponse.id ?? 0)"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }
@@ -100,7 +100,8 @@ class VacinaPetViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(vacinaPet.id)") else {
+        guard let vacinaId = vacinaPet.id,
+              let url = URL(string: "\(baseURLString)/\(vacinaId)") else {
             responseMessage = "URL inválida."
             return
         }
