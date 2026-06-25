@@ -12,24 +12,22 @@ struct PetCardView: View {
             HStack {
                 Spacer()
 
-                if let id = pet.id, id != 0 {
-                    Text(String(id))
-                        .font(
-                            .system(
-                                size: 11,
-                                weight: .semibold
-                            )
+                Text(pet.petshop ?? "PetPulse")
+                    .font(
+                        .system(
+                            size: 11,
+                            weight: .semibold
                         )
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 7)
-                        .background(
-                            Color.green.opacity(0.2)
-                        )
-                        .clipShape(
-                            Capsule()
-                        )
-                }
+                    )
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(
+                        Color.green.opacity(0.2)
+                    )
+                    .clipShape(
+                        Capsule()
+                    )
             }
             .padding(.top, 14)
             .padding(.horizontal, 22)

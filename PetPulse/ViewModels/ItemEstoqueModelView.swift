@@ -50,7 +50,7 @@ class ItemEstoqueViewModel: ObservableObject {
 
                 let decodedResponse = try decoder.decode(ItemEstoque.self, from: data)
 
-                responseMessage = "Sucesso! Item criado com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! Item criado com ID: \(decodedResponse.id ?? 0)"
 
             } else {
                 responseMessage = "Erro no servidor ao criar."
@@ -100,7 +100,8 @@ class ItemEstoqueViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURLString)/\(item.id)") else {
+        guard let itemId = item.id,
+              let url = URL(string: "\(baseURLString)/\(itemId)") else {
             responseMessage = "URL inválida."
             return
         }

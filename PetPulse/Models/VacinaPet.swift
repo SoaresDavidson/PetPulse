@@ -14,7 +14,7 @@ struct VacinaPet: Identifiable, Codable {
     let dataAplicacao: Date      // "data_aplicacao" (yyyy-MM-dd)
 
     enum CodingKeys: String, CodingKey {
-        case id = "_id"                  // manter se a API às vezes enviar _id; do contrário, pode remover
+        case id
         case nome = "nome_vacina"
         case dataAplicacao = "data_aplicacao"
     }

@@ -17,7 +17,7 @@ struct ItemEstoque: Identifiable, Codable {
     var nome: String
     var tipo: String
     enum CodingKeys: String, CodingKey {
-            case id = "_id"
+            case id
             case rev = "_rev"
             case targetSpecies = "target_species"
             case nome

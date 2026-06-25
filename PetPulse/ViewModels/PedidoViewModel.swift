@@ -51,7 +51,7 @@ class PedidoViewModel: ObservableObject {
 
                 let decodedResponse = try decoder.decode(Pedido.self, from: data)
 
-                responseMessage = "Sucesso! Pedido criado com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! Pedido criado com ID: \(decodedResponse.id ?? 0)"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }

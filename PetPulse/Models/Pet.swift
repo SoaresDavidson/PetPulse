@@ -20,6 +20,7 @@ struct Pet: Identifiable, Codable {
     // Campos não presentes no JSON exemplo devem ser opcionais
     var sexo: String? = nil
     var imagem: String? = nil
+    var petshop: String? = nil
 
     enum CodingKeys: String, CodingKey {
         case id                   // "id"
@@ -32,5 +33,6 @@ struct Pet: Identifiable, Codable {
         case vacinas
         case imagem
         case species = "especie"
+        case petshop
     }
 }

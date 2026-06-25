@@ -16,7 +16,7 @@ struct Service: Identifiable, Codable {
     var preco: Double
     var duracaoEstimada: Int
     enum CodingKeys: String, CodingKey {
-            case id = "_id"
+            case id
             case rev = "_rev"
             case nomeServico = "nome_servico"
             case preco

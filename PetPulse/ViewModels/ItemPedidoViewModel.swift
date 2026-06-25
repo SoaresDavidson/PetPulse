@@ -48,7 +48,7 @@ class ItemPedidoViewModel: ObservableObject {
 
                 let decodedResponse = try decoder.decode(ItemPedido.self, from: data)
 
-                responseMessage = "Sucesso! ItemPedido criado com ID: \(decodedResponse.id)"
+                responseMessage = "Sucesso! ItemPedido criado com ID: \(decodedResponse.id ?? 0)"
             } else {
                 responseMessage = "Erro no servidor ao criar."
             }
@@ -92,7 +92,8 @@ class ItemPedidoViewModel: ObservableObject {
     func putItemPedido(itemPedido: ItemPedido) async {
         isLoading = true
         defer { isLoading = false }
-        guard let url = URL(string: "\(baseURLString)/\(itemPedido.id)") else {
+        guard let itemId = itemPedido.id,
+              let url = URL(string: "\(baseURLString)/\(itemId)") else {
             return
         }
         let encoder = JSONEncoder()

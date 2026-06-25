@@ -282,7 +282,8 @@ struct EdicaoPetSheet: View {
             vacinas: pet.vacinas,
             informacoes_medicas: informacoesMedicas.trimmingCharacters(in: .whitespaces),
             sexo: sexo,
-            imagem: imagem.trimmingCharacters(in: .whitespaces).isEmpty ? nil : imagem
+            imagem: imagem.trimmingCharacters(in: .whitespaces).isEmpty ? nil : imagem,
+            petshop: pet.petshop
         )
         
         await petViewModel.putPet(tutorId: tutorId, pet: updatedPet)

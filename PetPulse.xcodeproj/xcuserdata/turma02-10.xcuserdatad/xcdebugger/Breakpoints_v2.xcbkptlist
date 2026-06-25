@@ -3,4 +3,68 @@
    uuid = "B8E58A36-8D77-4590-A3D1-867C8033A663"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1F9328F-E282-41CD-ABEC-7960E4566F49"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PetPulse/ViewModels/AgendamentoViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "getAgendamentos()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E1F9328F-E282-41CD-ABEC-7960E4566F49 - 776b6366fde9e92f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for PetPulse.AgendamentoViewModel.getAgendamentos() async -&gt; ()"
+                  moduleName = "PetPulse.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/turma02-10/Documents/GitHub/PetPulse/PetPulse/ViewModels/AgendamentoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97">
+               </Location>
+               <Location
+                  uuid = "E1F9328F-E282-41CD-ABEC-7960E4566F49 - 3d931207d33fbb26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for PetPulse.AgendamentoViewModel.getAgendamentos() async -&gt; ()"
+                  moduleName = "PetPulse.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/turma02-10/Documents/GitHub/PetPulse/PetPulse/ViewModels/AgendamentoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D96E49FA-C3CF-496D-A4C7-3782FE83AFEB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PetPulse/ViewModels/AgendamentoViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "getAgendamentos()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

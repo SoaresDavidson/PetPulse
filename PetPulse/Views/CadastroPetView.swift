@@ -4,6 +4,7 @@ struct CadastroPetView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var petViewModel: PetViewModel
     @EnvironmentObject var tutorViewModel: TutorViewModel
+    @EnvironmentObject var petshopViewModel: PetshopViewModel
     
     var tutorId: String? = nil
     
@@ -145,7 +146,8 @@ struct CadastroPetView: View {
             vacinas: [],
             informacoes_medicas: informacoesMedicas.trimmingCharacters(in: .whitespaces),
             sexo: sexo,
-            imagem: imagem.trimmingCharacters(in: .whitespaces).isEmpty ? nil : imagem
+            imagem: imagem.trimmingCharacters(in: .whitespaces).isEmpty ? nil : imagem,
+            petshop: petshopViewModel.petshopLogado?.nome
         )
         
         await petViewModel.postPet(tutorId: selectedTutorId, pet: newPet)
@@ -167,5 +169,6 @@ struct CadastroPetView: View {
         CadastroPetView()
             .environmentObject(PetViewModel())
             .environmentObject(TutorViewModel())
+            .environmentObject(PetshopViewModel())
     }
 }
