@@ -18,7 +18,7 @@ struct Notificacao: Identifiable, Codable {
     var dataEnvio: Date
     var lida: Bool
     enum CodingKeys: String, CodingKey {
-            case id = "_id"
+            case id
             case rev = "_rev"
             case petshopId = "petshop_id"
             case titulo

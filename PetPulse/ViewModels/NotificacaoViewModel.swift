@@ -82,6 +82,8 @@ class NotificacaoViewModel: ObservableObject {
             } else {
                 self.responseMessage = "Erro no servidor ao buscar notificações."
             }
+        } catch let error as URLError where error.code == .cancelled {
+            // Ignorar cancelamento saudável do ciclo de vida da View
         } catch {
             self.responseMessage = "Erro na requisição GET: \(error.localizedDescription)"
         }

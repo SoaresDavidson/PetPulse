@@ -54,7 +54,7 @@ class AgendamentoViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let decodedResponse = try decoder.decode(Scheduling.self, from: data)
-                self.responseMessage = "Sucesso! Agendamento criado com ID: \(decodedResponse.id)"
+                self.responseMessage = "Sucesso! Agendamento criado com ID: \(decodedResponse.id ?? 0)"
                 
             } else {
                 self.responseMessage = "Erro no servidor ao criar."
@@ -93,6 +93,8 @@ class AgendamentoViewModel: ObservableObject {
             } else {
                 self.responseMessage = "Erro no servidor ao buscar pets."
             }
+        } catch let error as URLError where error.code == .cancelled {
+            // Ignorar cancelamento saudável do ciclo de vida da View
         } catch {
             self.responseMessage = "Erro na requisição GET: \(error.localizedDescription)"
         }
