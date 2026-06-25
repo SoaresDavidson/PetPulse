@@ -36,10 +36,6 @@ struct ClienteHomeView: View {
                 Label("Home", systemImage:"pawprint.fill")
             }
 
-            Text("Loja")
-                .tabItem {
-                    Label("Loja", systemImage:"cart.fill")
-                }
 
             NotificacoesView()
                 .tabItem {

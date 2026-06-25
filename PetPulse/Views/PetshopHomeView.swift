@@ -18,13 +18,7 @@ struct PetshopHomeView: View {
                         systemImage:"list.bullet"
                     )
                 }
-            LojaPetshopView()
-                .tabItem {
-                    Label(
-                        "Loja",
-                        systemImage:"cart.fill"
-                    )
-                }
+
             ListaPetsPetshopView()
                 .tabItem {
                     Label(
